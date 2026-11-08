@@ -28,7 +28,7 @@ The first physical reference laptop is selected. Use `msinfo32` in Windows to re
 | Power and input | Brightness and volume keys, touchpad, battery, lid close, repeated sleep/wake and thermal behavior | Not run |
 | Storage and peripherals | USB, safe eject, NTFS/exFAT/ext4 access, printer and network shares as applicable | Not run |
 | Boot and recovery | Live UEFI boot, Secure Boot behavior, encrypted install, update/reboot and restore on disposable data | Not run |
-| Meetings | Run MEET-001, MEET-002 and MEET-004 with a second device and an external display. Record browser and session results. | Not run |
+| Meetings | Run MEET-001, MEET-002 and NOTES-001 with a second device and an external display. Record browser and session results. | Not run |
 | Performance | Reboot and collect all five idle samples per session with baseline services enabled | Not run |
 
 For each run record the date, reference ID, commit/image hash, kernel, session, versions, expected result, observed result and evidence. Use **Pass**, **Fail**, **Blocked**, **Not applicable** or **Not run**. For blocked or inapplicable checks, record the reason. Before publishing evidence, remove serial numbers, usernames, network identifiers and credentials.

@@ -39,7 +39,8 @@ A milestone is complete only when its requirements are **tested and documented**
 | PERF-003 | Low idle CPU / battery impact | Capture CPU, wakeups, GPU use, thermals, power draw and battery runtime; establish baselines against installed Windows and/or stock Debian |
 | CORE-001 | Complete laptop and desktop functionality | All applicable hardware tests in Section 5 pass on supported devices |
 | APPS-001 | Real productivity | Firefox, Chrome, Edge and Brave compatibility; VLC; browser-only Telegram and WhatsApp; Zoom, VS Code, Python, SQL, Google Workspace, Microsoft 365 web, and optional offline office validated |
-| MEET-001–005 | Meeting screen sharing | Test native Zoom on Xorg and Meet/Zoom Web by session, browser and capture source using the [meeting acceptance matrix](docs/compatibility.md#meeting-tests) |
+| MEET-001–003 | Meeting screen sharing | Test native Zoom on Xorg and Meet/Zoom Web by session, browser and capture source using the [meeting acceptance matrix](docs/compatibility.md#meeting-tests) |
+| NOTES-001 | Private presenter notes | Verify the pin toggle and [capture exclusion](docs/compatibility.md#notes-privacy-tests), including on a shared display that locally shows Notes |
 | SEC-001 | Secure and maintainable | Encryption, updates, firewall, permissions, backups and recovery tested |
 | UX-001 | Functional elegant UI | Dock, notifications, system controls, accessibility basics and Island work without preventing core workflow |
 | REL-001 | Boot, sleep, resume and updates work | Repeated end-to-end testing; no critical data-loss, boot or update regressions |
@@ -125,6 +126,7 @@ Both must meet PERF-001 on designated supported hardware. Heavy GPU effects are 
 - **Veloce Island:** Expands for volume, media, battery, Wi-Fi/Bluetooth events, screen capture feedback, timers/alerts, and call indicators **where event/permission APIs allow**.
 - **Veloce Control:** Volume, input/output device, brightness, airplane mode, network, Bluetooth, battery and power profile controls.
 - **Veloce Notify:** Native notifications with Do Not Disturb, action buttons where supported, history, privacy rules and accessibility.
+- **Notes:** A local notes app with a pin toggle for always-on-top placement. In a supported session, you can read Notes over your demo while meeting attendees see the demo underneath, even during full-display sharing. See [protected Notes](docs/adr/0002-desktop-sessions.md#protected-notes-surface).
 - **Veloce Settings:** Appearance, performance mode, power, devices, update status, privacy and accessibility preferences.
 - **Veloce Welcome:** First boot setup, user language/keyboard, optional app installation and Google Drive integration.
 
@@ -194,9 +196,9 @@ All capabilities listed here are part of the **baseline compatibility scope**. T
 As documented by Zoom, on Linux **Wayland sessions support entire-desktop or whiteboard sharing but not specific application-window sharing**; application-window sharing requires Xorg. Therefore:
 
 - Provide and test the primary **Wayland** desktop with XDG Desktop Portal + PipeWire integration.
-- Provide and test an **Xorg session** for the full Zoom application-sharing workflow.
-- Verify browser tab, individual application window, whole application and selected display sharing in Google Meet and Zoom Web with both Firefox ESR and Chrome. Test the same modes in the installed Chrome-based Meet web app. For native Zoom, test an individual window, the whole application and a selected display on Xorg. Sharing one tab inside a desktop application is optional where supported.
-- Compare both Wayland candidates with the actual portal backend. Under the proposed Stage 0 gate, a Wayland candidate can become the default after passing the browser meeting matrix. See [MEET-001 through MEET-005](docs/requirements.md) for the Xorg path and default-session criteria.
+- Provide and test an **Xorg session** for native Zoom application-window sharing.
+- Verify browser tab, one application window, and selected display sharing in Google Meet and Zoom Web with both Firefox ESR and Chrome. Test the same modes in the installed Chrome-based Meet web app. For native Zoom, test an individual window and a selected display on Xorg.
+- Compare both Wayland candidates with the actual portal backend. The proposed Wayland default must pass the browser meeting matrix and the Notes privacy checks. See [meeting and Notes requirements](docs/requirements.md) for the session criteria.
 - Certify real meetings with microphones, webcams, Bluetooth headsets, multiple monitors, share audio, join/leave and suspend/resume.
 - Do not describe Zoom as “fully working” until the required scenarios pass.
 
@@ -372,7 +374,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 - [ ] Five-sample measurements on Wayfire, Labwc and X11 baseline sessions
 - [ ] CPU, GPU/blur, battery, suspend and multi-monitor comparisons
 - [ ] Services/startup review; remove unnecessary daemons safely
-- [ ] Architecture decision: primary compositor and custom-component constraints
+- [ ] Architecture decision: primary compositor and custom-component constraints, including capture protection for Notes
 - [ ] Performance regression checks prepared for subsequent builds
 
 **Exit gate:** Chosen baseline meets ≤ 1,024 MiB idle on reference hardware, **or** documented optimization plan plus explicit stage failure; no false success claims.
@@ -388,6 +390,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 - [ ] Unified controls: Wi-Fi, Bluetooth, audio, mic, battery, display brightness
 - [ ] Notifications, Do Not Disturb, privacy indicators and action handling
 - [ ] Settings and first-run onboarding
+- [ ] Notes app with pin toggle and verified capture exclusion on supported sessions
 - [ ] Glass and Light appearance profiles; accessibility/reduced-motion support
 - [ ] Multi-monitor, scaling, keyboard accessibility and crash isolation tests
 
@@ -477,7 +480,7 @@ This is the **first build we should implement** — **not** a custom glass deskt
 - [ ] M1-05: Configure Wi-Fi/networking, Bluetooth, PipeWire audio, notification and power services.
 - [ ] M1-06: Run repeatable idle RAM/CPU benchmarks on all sessions.
 - [ ] M1-07: Validate Firefox, optional Chrome/Edge/Brave, VLC, and Telegram/WhatsApp Web in browsers.
-- [ ] M1-08: Run the [meeting matrix](docs/compatibility.md#meeting-tests) for native Zoom and web meeting clients. Verify window and display sharing in native Zoom on Xorg. Test Firefox ESR and Chrome for tab, window and display sharing in the web clients. Record whole-application feasibility in each client and Wayland results per candidate.
+- [ ] M1-08: Run the [meeting matrix](docs/compatibility.md#meeting-tests) for native Zoom and web meeting clients. Verify window and display sharing in native Zoom on Xorg. Test Firefox ESR and Chrome for tab, window and display sharing in the web clients. Record Wayland results per candidate and prototype the [protected Notes surface](docs/adr/0002-desktop-sessions.md#protected-notes-surface) using dummy content.
 - [ ] M1-09: Test Google Workspace, Microsoft 365 web, optional LibreOffice, VS Code, Python venv and a SQL client.
 - [ ] M1-10: Record failures, choose architecture and define a fix backlog.
 
@@ -591,10 +594,12 @@ veloce_os/
 - Bluetooth, Wi-Fi, audio jack, webcam/microphone, brightness, volume, notifications, touchpad, function keys, battery/suspend and external displays.
 - Security, updates, encryption, backups, diagnostics, graphical installation and recovery.
 - Mac-inspired original glass interface, floating dock, Dynamic Island–style controls and Light performance profile.
+- Notes with optional always-on-top placement and capture exclusion on verified sessions.
 - Reproducible builds, performance tests and published supported-hardware limitations.
 
 ### Not planned for v1 unless evidence changes priorities
 
+- Sharing all windows of an application as a group or sharing one tab inside a desktop application.
 - Writing a kernel, Wi-Fi or GPU drivers from scratch.
 - Running Windows-only `.exe` applications natively without compatibility layers.
 - Native desktop Microsoft Office parity, especially advanced Excel/VBA/Power Query features.
