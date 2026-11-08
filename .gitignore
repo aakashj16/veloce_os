@@ -1,0 +1,144 @@
+# Veloce OS — do not commit machine-specific data or generated builds
+
+# Build artifacts, packages and OS images
+/build/
+/dist/
+/out/
+/tmp/
+*.iso
+*.img
+*.qcow2
+*.vdi
+*.vmdk
+*.vhd
+*.vhdx
+*.squashfs
+*.tar
+*.tar.gz
+*.tar.xz
+*.tar.zst
+*.deb
+*.udeb
+*.rpm
+*.AppImage
+*.flatpak
+*.flatpakref
+*.flatpakrepo
+*.zsync
+*.sha256
+*.sha512
+
+# Debian live-build generated outputs (keep image/live-build/config/ tracked)
+/binary/
+/chroot/
+/cache/
+/image/live-build/binary/
+/image/live-build/chroot/
+/image/live-build/cache/
+/image/live-build/.build/
+/image/live-build/live-image-*
+/image/live-build/live-filesystem.*
+
+# Local virtual machines, snapshots and machine-specific test state
+.vagrant/
+.terraform/
+*.vagrant
+*.vbox
+*.vbox-prev
+*.vbox-tmp
+*.sav
+*.vbox-tmp
+*.nvram
+*.vmsd
+*.vmsn
+*.vmsw
+*.snapshot
+
+# Python, notebooks and coverage
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Qt / QML / CMake / C++ locally generated files
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
+compile_commands.json
+*.o
+*.obj
+*.so
+*.so.*
+*.a
+*.dll
+*.exe
+*.dSYM/
+*.qrc.dep
+.qmake.stash
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+
+# Editors and operating system
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.directory
+.Trash-*/
+lost+found/
+
+# Logs, crash dumps and test outputs
+*.log
+logs/
+*.core
+core.*
+*.dmp
+/benchmark-results/
+/test-results/
+/reports/local/
+/coverage/
+
+# Local secrets, credentials, tokens, installer signing keys
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+*.key
+*.kdbx
+*.age
+*.secret
+secrets/
+credentials/
+private-keys/
+**/secrets.local.*
+
+# Personal backup and local workspace files
+*.bak
+*.orig
+*.rej
+*.backup
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# IMPORTANT: Keep requirements, package manifests, signed PUBLIC keys,
+# docs, config/, original source, scripts, and license/notice files tracked.
+# This ignore file is not a security boundary: check commits for secrets.

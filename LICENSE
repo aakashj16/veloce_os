@@ -1,0 +1,127 @@
+VELOCE OS ORIGINAL MATERIALS — FREE-TO-INSTALL, RESTRICTED-USE LICENSE
+Version 0.1 (Draft) — November 8, 2026
+
+Copyright (c) 2026 Aakash Sharma. All rights reserved.
+
+IMPORTANT SCOPE NOTICE
+
+This license applies ONLY to original, copyrightable Veloce OS source code,
+configuration, build tooling, original documentation, graphics, visual assets,
+and other materials owned by the above copyright holder ("Veloce Materials")
+and identified as covered by this license.
+
+It DOES NOT apply to the Linux kernel, Debian, LXQt, Wayfire, Labwc, VLC,
+LibreOffice, third-party browsers, firmware, codecs, libraries, packages or any
+other materials owned by others. Those materials retain their own licenses.
+Nothing in this license limits rights independently granted under the GNU GPL,
+LGPL, MIT, Apache, BSD or other applicable third-party licenses, or permits
+Veloce to relicense those works. See Section 8.
+
+1. PERMISSION TO INSTALL AND USE OFFICIAL VELOCE RELEASES
+
+Subject to this license and applicable third-party licenses, you are granted a
+non-exclusive, worldwide, royalty-free, revocable upon material breach right to
+obtain, install, run and use unmodified official Veloce OS releases for your
+own computing activities. This includes personal, educational and internal
+professional or business use. You may make technically necessary backup copies
+for your own permitted installation, recovery and archival use.
+
+There is no license fee to install or run an authorized Veloce OS release.
+Using Veloce OS to perform paid professional work is not, by itself, prohibited.
+
+2. NO UNAUTHORIZED MODIFICATION OR DERIVATIVE DISTRIBUTIONS
+
+Except where applicable law or a separate component license gives you an
+independent right, you may not modify, adapt, translate, repurpose, sublicense,
+or create or distribute derivative works of the Veloce Materials without prior
+written permission from the copyright holder.
+
+This prohibition addresses Veloce-original materials. It does NOT prohibit
+modifying third-party software under licenses that allow modification.
+
+Normal local use is permitted, including configuring your desktop, changing
+preferences, installing applications, adding personal files and applying
+updates to upstream operating-system packages. These actions do not, without
+more, grant the right to redistribute altered Veloce Materials.
+
+3. NO UNAUTHORIZED REDISTRIBUTION OR MONETIZATION
+
+Except as expressly allowed by Section 1, another separate license, or
+applicable law, you may not sell, license, rent, lease, monetize, commercially
+host as a branded Veloce offering, bundle for resale, distribute modified
+versions of, or charge for access to the Veloce Materials or an unauthorized
+Veloce-branded OS image, installer, release or service.
+
+You may not publish unofficial Veloce-branded releases or present third-party
+modifications as official project updates without prior written permission.
+
+These terms do NOT purport to forbid activity independently permitted for
+third-party components, including selling copies of GPL-covered software under
+the applicable GPL terms.
+
+4. OFFICIAL MAINTENANCE AND UPDATES
+
+Only the copyright holder and maintainers expressly authorized by that holder
+may issue releases or updates identified as "official Veloce OS" updates.
+Users remain free to receive upstream security updates, install or update
+third-party applications, and maintain their own computers in accordance with
+the licenses of relevant components.
+
+5. PUBLIC REPOSITORY ACCESS
+
+The source repository may be visible on GitHub. Public visibility is not an
+open-source license or a general permission to redistribute or create
+derivatives of Veloce Materials. GitHub's Terms of Service independently permit
+viewing and forking through GitHub's platform functionality; nothing here
+purports to revoke those platform rights.
+
+6. TRADEMARKS AND BRANDING
+
+No right to use the "Veloce OS" name, logo, marks, trade dress or branding as
+an indication of origin, endorsement or affiliation is granted, except
+incidentally to identify an unmodified authorized release. This provision
+applies only to rights actually held by the relevant rightsholder. The project
+name remains subject to independent trademark clearance.
+
+7. DISCLAIMER OF WARRANTIES AND LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE VELOCE MATERIALS ARE
+PROVIDED "AS IS," WITHOUT WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE OR NON-INFRINGEMENT. THE COPYRIGHT HOLDER IS NOT LIABLE FOR
+ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY LOSS ARISING
+FROM USE OR INABILITY TO USE THE VELOCE MATERIALS, TO THE EXTENT PERMITTED BY
+LAW. THIS SECTION DOES NOT EXCLUDE LIABILITY THAT CANNOT LEGALLY BE EXCLUDED.
+
+8. THIRD-PARTY RIGHTS AND CONFLICTS
+
+All third-party software, documentation and assets are governed solely by
+their respective copyright holders' licenses. If a term of this license
+conflicts with mandatory rights or obligations under an applicable third-party
+license, the third-party license controls as to that third-party component.
+No Veloce term adds restrictions to the exercise of GPL-granted rights in
+GPL-covered components. Distribution of a combined OS image must comply with
+each included component's notices, source-code, distribution and other
+requirements. The project should provide a third-party license inventory
+before distributing any installer or ISO.
+
+9. TERMINATION
+
+Your rights to the Veloce Materials under this license end if you materially
+breach the license and fail to cure that breach within 30 days after written
+notice, where cure is possible. This does not terminate independent rights
+held under third-party licenses.
+
+10. PERMISSIONS AND CHANGES
+
+Additional permissions or exceptions for the Veloce Materials require prior
+written authorization from the copyright holder. No contributor receives
+write access to the official repository by virtue of this license.
+
+LEGAL-REVIEW NOTICE
+
+This is a custom license draft, not an OSI-approved open-source license and not
+legal advice. Have a qualified intellectual-property/software-licensing
+professional review it before publication of binaries, and verify ownership
+and third-party attribution. It cannot prevent users from modifying or
+redistributing upstream GPL components under their licenses. Replace the
+copyright name if the legal copyright holder is different.
