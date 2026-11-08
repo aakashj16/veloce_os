@@ -5,18 +5,18 @@
 | Field | Inventory |
 |---|---|
 | Reference ID | HW-01 |
-| Make and model | Pending selection |
-| CPU and architecture | Pending |
-| Installed RAM | Pending |
-| Integrated and discrete GPU | Pending |
+| Make and model | HP laptop selected. Exact system model pending. |
+| CPU and architecture | Intel Core i5-1035G1, x86-64 (amd64) |
+| Installed RAM | 16 GB |
+| Integrated and discrete GPU | Intel UHD Graphics and NVIDIA GeForce MX130 (2 GB) |
 | Wi-Fi, Bluetooth and audio chipsets | Pending |
-| Storage type and available test drive | Pending |
+| Storage type and available test drive | 1.14 TB total reported by Windows. Drive types, physical disk layout and disposable test drive pending. |
 | Firmware version, UEFI and Secure Boot state | Pending |
-| Internal display, scaling and external monitor connection | Pending |
+| Internal display, scaling and external monitor connection | No pen or touch input reported. Resolution, scaling and external monitor connection pending. |
 | Webcam, wired headset and Bluetooth test devices | Pending |
-| Baseline OS, test image and kernel | Pending |
+| Baseline OS, test image and kernel | 64-bit Windows baseline. Windows build, Debian test image and kernel pending. |
 
-For the first pass, the make and model, CPU, installed RAM and GPU are enough to identify a candidate. On Windows, `msinfo32` shows the system model, processor and memory. Task Manager's Performance tab shows the GPU. Record selected fields only. In a Debian live session, `lspci -nnk` and `lsusb` help identify the chipsets and loaded drivers. Use a VM or live USB for initial checks. Use a spare or disposable disk for installation and recovery tests.
+The first physical reference laptop is selected. Use `msinfo32` in Windows to record the exact System Model before publishing device-specific compatibility results. Record selected fields only. In a Debian live session, `lspci -nnk` and `lsusb` help identify the chipsets and loaded drivers. Use a VM or live USB for initial checks. Use a spare or disposable disk for installation and recovery tests.
 
 ## Physical test checklist
 

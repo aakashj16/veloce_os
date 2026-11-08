@@ -26,7 +26,7 @@ MEET-003 is a proposed Stage 0 decision for review. App-wide sharing that automa
 - [x] Draft requirement IDs, priorities, acceptance criteria and test links.
 - [x] Draft architecture decisions, compatibility scenarios, issue templates and security reporting policy.
 - [x] Prepare a hardware inventory and driver checklist.
-- [ ] Identify and record the first physical reference laptop.
+- [x] Identify and record the first physical reference laptop (HW-01).
 - [ ] Review requirements and the test strategy, including the proposed meeting default gate.
 - [x] Record the owner’s open public-release review items below.
 
@@ -39,4 +39,4 @@ MEET-003 is a proposed Stage 0 decision for review. App-wide sharing that automa
 | Third-party components | Owner records the bundled component inventory, attribution and source obligations where applicable, and any vendor permissions before distributing images. |
 | Private vulnerability reporting | Maintainer enables and verifies a working private reporting route. |
 
-Stage 1 can begin in a VM while the hardware entry is being completed. The VM is suitable for setup and boot checks. Physical hardware is required for certification of the idle memory budget and laptop workflows.
+Stage 1 can begin in a VM while the remaining hardware details are collected. The VM is suitable for setup and boot checks. Physical hardware is required for certification of the idle memory budget and laptop workflows.

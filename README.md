@@ -643,7 +643,7 @@ veloce_os/
 | Architecture | **Proposed — not validated** |
 | Brand clearance | **Open — resolve before branded ISO distribution** |
 | GitHub repository | **Public `veloce_os` repository created** |
-| Stage 0 | **Requirements, architecture decisions and test plans drafted for review. Physical reference laptop pending.** |
+| Stage 0 | **Requirements, architecture decisions and test plans drafted for review. First physical reference laptop selected.** |
 | Original-code LICENSE | **Draft available; counsel review required before public binary release** |
 | Third-party attribution audit | **Not started** |
 | Prototype implementation | **Not started** |
