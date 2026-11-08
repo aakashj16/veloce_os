@@ -1,6 +1,6 @@
 # ADR 0002 · Wayland candidates and Xorg session
 
-**Status** — Proposed for Stage 0 review
+**Status** — Evaluation plan accepted. Default session pending Stage 4 results.
 
 Compare LXQt with Labwc and Wayfire using the same Debian base, services, hardware and measurement protocol. Record the compositor, portal backend, PipeWire, browser and native Zoom versions. Compare memory, CPU, GPU effects, battery, suspend/resume, scaling, accessibility, crash recovery and meeting capture before choosing the default.
 

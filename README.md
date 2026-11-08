@@ -198,7 +198,7 @@ As documented by Zoom, on Linux **Wayland sessions support entire-desktop or whi
 - Provide and test the primary **Wayland** desktop with XDG Desktop Portal + PipeWire integration.
 - Provide and test an **Xorg session** for native Zoom application-window sharing.
 - Verify browser tab, one application window, and selected display sharing in Google Meet and Zoom Web with both Firefox ESR and Chrome. Test the same modes in the installed Chrome-based Meet web app. For native Zoom, test an individual window and a selected display on Xorg.
-- Compare both Wayland candidates with the actual portal backend. The proposed Wayland default must pass the browser meeting matrix and the Notes privacy checks. See [meeting and Notes requirements](docs/requirements.md) for the session criteria.
+- Compare both Wayland candidates with the actual portal backend. A Wayland session must pass the browser meeting matrix and the Notes privacy checks before it can become the default. See [meeting and Notes requirements](docs/requirements.md) for the session criteria.
 - Certify real meetings with microphones, webcams, Bluetooth headsets, multiple monitors, share audio, join/leave and suspend/resume.
 - Do not describe Zoom as “fully working” until the required scenarios pass.
 
@@ -302,7 +302,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 ## 7. Development roadmap and stage gates
 
-**Stage status:** All stages below are **PLANNED** as of 2026-11-08. Dates are deliberately not estimated until hardware access, contributors and prototype results are known. Do not mark steps complete without evidence.
+**Stage status:** Stage 0 is **COMPLETE** as of 2026-11-09. Stages 1–10 are **PLANNED**. Dates are deliberately not estimated until hardware access, contributors and prototype results are known. Do not mark steps complete without evidence.
 
 ### Stage 0 — Requirements, naming and project setup
 
@@ -310,14 +310,14 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 **Deliverables**
 - [x] Public GitHub repository **`veloce_os`**, README, `.gitignore`, and draft original-material license
-- [ ] Review the draft security reporting policy and issue templates
-- [ ] Architectural decision records (Debian version, LXQt, Wayfire vs Labwc, X11 fallback)
-- [ ] Requirement IDs, acceptance criteria, priority and traceability matrix
-- [ ] Baseline hardware inventory and driver compatibility checklist
-- [ ] Supported-use scenarios for four browsers, browser-only Telegram/WhatsApp, VLC, online/offline office, Zoom, Python/SQL and VS Code
-- [ ] Legal review for public branding, third-party redistributable packages and the custom source-available license (including GPL exceptions)
+- [x] Review the [security reporting policy](SECURITY.md) and issue templates
+- [x] Record the prototype architecture decisions (Debian 13, LXQt, Wayfire and Labwc trials, and Xorg compatibility)
+- [x] Record and review requirement IDs, priorities, acceptance criteria and test links
+- [x] Identify HW-01 and document the baseline hardware inventory and driver compatibility checklist
+- [x] Document supported-use scenarios for four browsers, browser-only Telegram/WhatsApp, VLC, office apps, meeting clients, Notes, Python/SQL and VS Code
+- [x] Record the [open public-release reviews](docs/requirements.md#public-release-review) for branding, the draft license and third-party distribution
 
-**Exit gate:** Requirements and test strategy reviewed, with a physical reference laptop identified. See the [Stage 0 checklist](docs/requirements.md#stage-0-exit-checklist), [hardware inventory](docs/hardware-test-matrix.md) and architecture decisions for the [base desktop](docs/adr/0001-debian-lxqt.md) and [session options](docs/adr/0002-desktop-sessions.md).
+**Exit gate met:** The requirements and test strategy were reviewed, and HW-01 is the first physical reference laptop. See the [Stage 0 checklist](docs/requirements.md#stage-0-exit-checklist), [hardware inventory](docs/hardware-test-matrix.md) and architecture decisions for the [base desktop](docs/adr/0001-debian-lxqt.md) and [session options](docs/adr/0002-desktop-sessions.md).
 
 ### Stage 1 — Minimal Debian desktop proof of concept
 
@@ -648,7 +648,7 @@ veloce_os/
 | Architecture | **Proposed — not validated** |
 | Brand clearance | **Open — resolve before branded ISO distribution** |
 | GitHub repository | **Public `veloce_os` repository created** |
-| Stage 0 | **Requirements, architecture decisions and test plans drafted for review. First physical reference laptop selected.** |
+| Stage 0 | **Complete. Prototype scope and test strategy reviewed. HW-01 selected.** |
 | Original-code LICENSE | **Draft available; counsel review required before public binary release** |
 | Third-party attribution audit | **Not started** |
 | Prototype implementation | **Not started** |

@@ -19,7 +19,7 @@ This register maps the [README specification](../README.md) to the evidence need
 | REL-001 | Required | Record repeat boot and suspend/resume, reconnect, update and recovery results with no critical boot, data-loss or update failures. | Stages 6–8 |
 | DIST-001 | Required | Boot a versioned live image and verify installer, bootloader, firmware, supported storage layouts, and recovery. Record build provenance and integrity. | Stages 7–9 |
 
-MEET-003 is a proposed Stage 0 decision for review. Firefox ESR parity covers browser-tab, application-window and display capture. Verify true tab capture separately from sharing a browser window or a display. Log any unavailable mode as **Blocked** for that client and session, with the reason and a follow-up. The v1 criteria stay open until the required modes work or the owner explicitly revises scope.
+MEET-003 defines the checks a Wayland candidate must pass before becoming the default. Firefox ESR parity covers browser-tab, application-window and display capture. Verify true tab capture separately from sharing a browser window or a display. Log any unavailable mode as **Blocked** for that client and session, with the reason and a follow-up. The v1 criteria stay open until the required modes work or the owner explicitly revises scope.
 
 ## Stage 0 exit checklist
 
@@ -28,10 +28,12 @@ MEET-003 is a proposed Stage 0 decision for review. Firefox ESR parity covers br
 - [x] Draft architecture decisions, compatibility scenarios, issue templates and security reporting policy.
 - [x] Prepare a hardware inventory and driver checklist.
 - [x] Identify and record the first physical reference laptop (HW-01).
-- [ ] Review requirements and the test strategy, including the proposed meeting default gate.
+- [x] Review requirements and the test strategy, including the criteria for a Wayland default and the Notes privacy tests.
 - [x] Record the owner’s open public-release review items below.
 
 ## Public release review
+
+The items below are open release gates. Stage 0 records them and closes with the prototype scope and test strategy reviewed.
 
 | Open item | Evidence to record before public distribution |
 |---|---|
