@@ -39,7 +39,7 @@ A milestone is complete only when its requirements are **tested and documented**
 | PERF-003 | Low idle CPU / battery impact | Capture CPU, wakeups, GPU use, thermals, power draw and battery runtime; establish baselines against installed Windows and/or stock Debian |
 | CORE-001 | Complete laptop and desktop functionality | All applicable hardware tests in Section 5 pass on supported devices |
 | APPS-001 | Real productivity | Firefox, Chrome, Edge and Brave compatibility; VLC; browser-only Telegram and WhatsApp; Zoom, VS Code, Python, SQL, Google Workspace, Microsoft 365 web, and optional offline office validated |
-| MEET-001–003 | Meeting screen sharing | Test native Zoom on Xorg and Meet/Zoom Web by session, browser and capture source using the [meeting acceptance matrix](docs/compatibility.md#meeting-tests) |
+| MEET-001–005 | Meeting screen sharing | Test native Zoom on Xorg and Meet/Zoom Web by session, browser and capture source using the [meeting acceptance matrix](docs/compatibility.md#meeting-tests) |
 | SEC-001 | Secure and maintainable | Encryption, updates, firewall, permissions, backups and recovery tested |
 | UX-001 | Functional elegant UI | Dock, notifications, system controls, accessibility basics and Island work without preventing core workflow |
 | REL-001 | Boot, sleep, resume and updates work | Repeated end-to-end testing; no critical data-loss, boot or update regressions |
@@ -195,8 +195,8 @@ As documented by Zoom, on Linux **Wayland sessions support entire-desktop or whi
 
 - Provide and test the primary **Wayland** desktop with XDG Desktop Portal + PipeWire integration.
 - Provide and test an **Xorg session** for the full Zoom application-sharing workflow.
-- Verify Chrome tab, individual application window, and selected display sharing in Google Meet, the installed Meet web app, and Zoom Web. Record which options work in each desktop session and supported browser.
-- Compare both Wayland candidates with the actual portal backend. Under the proposed Stage 0 gate, a Wayland candidate can become the default after passing the browser meeting matrix. See [MEET-001 through MEET-003](docs/requirements.md) for the Xorg path and default-session criteria.
+- Verify browser tab, individual application window, whole application and selected display sharing in Google Meet and Zoom Web with both Firefox ESR and Chrome. Test the same modes in the installed Chrome-based Meet web app. For native Zoom, test an individual window, the whole application and a selected display on Xorg. Sharing one tab inside a desktop application is optional where supported.
+- Compare both Wayland candidates with the actual portal backend. Under the proposed Stage 0 gate, a Wayland candidate can become the default after passing the browser meeting matrix. See [MEET-001 through MEET-005](docs/requirements.md) for the Xorg path and default-session criteria.
 - Certify real meetings with microphones, webcams, Bluetooth headsets, multiple monitors, share audio, join/leave and suspend/resume.
 - Do not describe Zoom as “fully working” until the required scenarios pass.
 
@@ -477,7 +477,7 @@ This is the **first build we should implement** — **not** a custom glass deskt
 - [ ] M1-05: Configure Wi-Fi/networking, Bluetooth, PipeWire audio, notification and power services.
 - [ ] M1-06: Run repeatable idle RAM/CPU benchmarks on all sessions.
 - [ ] M1-07: Validate Firefox, optional Chrome/Edge/Brave, VLC, and Telegram/WhatsApp Web in browsers.
-- [ ] M1-08: Run the [meeting matrix](docs/compatibility.md#meeting-tests) for native Zoom and web meeting clients. Verify app-window and display sharing on Xorg, and tab, window and display sharing for the web clients. Record Wayland results per candidate.
+- [ ] M1-08: Run the [meeting matrix](docs/compatibility.md#meeting-tests) for native Zoom and web meeting clients. Verify window and display sharing in native Zoom on Xorg. Test Firefox ESR and Chrome for tab, window and display sharing in the web clients. Record whole-application feasibility in each client and Wayland results per candidate.
 - [ ] M1-09: Test Google Workspace, Microsoft 365 web, optional LibreOffice, VS Code, Python venv and a SQL client.
 - [ ] M1-10: Record failures, choose architecture and define a fix backlog.
 
