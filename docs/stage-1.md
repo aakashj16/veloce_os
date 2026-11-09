@@ -1,6 +1,6 @@
 # Stage 1 · Minimal Debian desktop prototype
 
-**Status** — In progress. VM installation and session checks are pending.
+**Status** — In progress. The first Xorg VM passed the desktop checks. Labwc and Wayfire trials are pending.
 
 This is the first slice of [BASE-001](requirements.md). Establish an LXQt login on Xorg with Openbox, then use a comparable VM configuration for the Labwc and Wayfire trials.
 
@@ -68,6 +68,38 @@ vmstat -w 1 6
 ```
 
 Record boot-to-greeter time separately with a stopwatch. Use the last five rows of `vmstat` for interval data. These are early VM measurements with a test terminal open. Use the [five-sample protocol](../README.md#what-the-1-gib-requirement-means) on reference hardware for the 1 GiB acceptance test.
+
+### First Xorg VM run
+
+Run date **2026-11-10 (IST)**. Setup revision [`9635539`](https://github.com/aakashj16/veloce_os/commit/96355390c206b58eaf8adcc41fab2db7b1e3f25a). The guest ran Debian 13.7 amd64 with kernel `6.12.116+deb13-amd64` and LXQt on Xorg with Openbox. The VMware Workstation Pro 26H1 VM used UEFI, 2 virtual CPUs, 4 GiB of assigned RAM, a 25 GiB virtual disk, and NAT on a Windows 11 Home Single Language host. APT used `deb.debian.org` for `trixie` and `trixie-updates` and `security.debian.org` for `trixie-security`.
+
+ISO `debian-13.7.0-amd64-netinst.iso`. SHA-512 matched Debian's published checksum.
+
+```text
+ef04d0276850d70e4aaec0b55003628660e9631b26e35215a70ab3c8c707294a4b12731bc73c75a932902f703a7c278310ca99df28d6b36fb06d5618d8d0f678
+```
+
+| Check | Result |
+|---|---|
+| Debian boot and SDDM login | Pass |
+| LXQt session type and window manager | Pass. `LXQt`, `x11`, `/usr/bin/openbox` |
+| QTerminal and file manager | Pass |
+| DNS lookup for `deb.debian.org` | Pass |
+| Lock and password unlock | Pass |
+| Logout and repeat login after reboot | Pass |
+
+| Measurement | Result |
+|---|---|
+| System startup | 28.389 s. Kernel 17.904 s, userspace 10.484 s |
+| Graphical target | Reached after 10.480 s in userspace |
+| Failed system units | 0 |
+| Guest memory reported by `free -m` | 753 MiB used, 3,129 MiB available, 3,883 MiB total |
+| Swap used | 0 MiB of 1,327 MiB |
+| CPU idle, five one-second intervals | 99%, 99%, 98%, 92%, 94% |
+
+The VM hit a virtual CPU fault during legacy BIOS startup. Switching its firmware to UEFI reached the boot manager and allowed installation from the verified ISO. The first graphical login opened KDE Plasma on Wayland. Selecting **LXQt** in the SDDM session menu provided the Xorg session for these tests.
+
+The run used an open QTerminal. Stopwatch boot-to-greeter time, virtual graphics settings and the full installed package inventory are pending. The physical-hardware memory acceptance test and both Wayland trials remain open.
 
 ## Wayland follow-up
 
