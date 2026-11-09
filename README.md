@@ -302,7 +302,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 ## 7. Development roadmap and stage gates
 
-**Stage status:** Stage 0 is **COMPLETE** as of 2026-11-09. Stages 1–10 are **PLANNED**. Dates are deliberately not estimated until hardware access, contributors and prototype results are known. Do not mark steps complete without evidence.
+**Stage status:** Stage 0 is **COMPLETE** as of 2026-11-09. Stage 1 is **IN PROGRESS**. Stages 2–10 are **PLANNED**. Dates are deliberately not estimated until hardware access, contributors and prototype results are known. Do not mark steps complete without evidence.
 
 ### Stage 0 — Requirements, naming and project setup
 
@@ -322,6 +322,8 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 ### Stage 1 — Minimal Debian desktop proof of concept
 
 **Goal:** Demonstrate a minimal, usable graphical Debian desktop before building custom UI.
+
+Start with the [Stage 1 VM setup and Xorg checks](docs/stage-1.md). The guide records the Debian 13 Wayland session packaging gap and the follow-up for both candidate compositors.
 
 **Deliverables**
 - [ ] Reproducible Debian 13 amd64 minimal installation in a virtual machine
@@ -651,7 +653,7 @@ veloce_os/
 | Stage 0 | **Complete. Prototype scope and test strategy reviewed. HW-01 selected.** |
 | Original-code LICENSE | **Draft available; counsel review required before public binary release** |
 | Third-party attribution audit | **Not started** |
-| Prototype implementation | **Not started** |
+| Prototype implementation | **Stage 1 in progress. VM setup guide and Xorg package manifest available. Session testing pending.** |
 | Reference hardware testing | **Not started** |
 | 1 GiB benchmark result | **Not yet measured** |
 | Installer / live ISO | **Not built** |
