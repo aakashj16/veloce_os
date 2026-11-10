@@ -1,6 +1,6 @@
 # Stage 1 · Minimal Debian desktop prototype
 
-**Status** — In progress. The first Xorg and Labwc VM runs passed the desktop checks. The Xorg retest with VMware 3D enabled is recorded. The Wayfire trial is pending.
+**Status** — The Stage 1 VM exit checks passed. Xorg, Labwc, and Wayfire each passed the desktop checks, and their initial measurements and known issues are recorded below.
 
 This is the first slice of [BASE-001](requirements.md). Establish an LXQt login on Xorg with Openbox, then use a comparable VM configuration for the Labwc and Wayfire trials.
 
@@ -221,3 +221,36 @@ wayfire --version
 Open `lxqt-config-session`. Under **Wayland Settings**, choose **Wayfire** and use `swaylock` as the screen locker. Log out and select **LXQt (Wayland)** in SDDM. Verify the session using `echo "$XDG_SESSION_TYPE"` and `pgrep -a -x wayfire`. If login fails, return to **LXQt** in SDDM and inspect `~/.local/share/sddm/wayland-session.log`.
 
 The [Stage 1 exit gate](../README.md#stage-1--minimal-debian-desktop-proof-of-concept) requires both complete LXQt Wayland sessions and their initial measurements.
+
+### First Wayfire VM run
+
+On 2026-11-10 (IST), `XDG_SESSION_TYPE` returned `wayland` and the Wayfire process was using `lxqt-wayfire.ini`. The binary reported `0.9.0-unknown`.
+
+| Check | Result |
+|---|---|
+| Debian boot and LXQt Wayland sign-in | Pass, including sign-in after a normal restart |
+| QTerminal and file manager | Pass |
+| DNS lookup for `deb.debian.org` | Pass |
+| Lock and password unlock | Pass |
+| Logout and repeat login | Pass |
+
+| Measurement | Result |
+|---|---|
+| System startup | 31.755 s. Kernel 16.707 s, userspace 15.048 s |
+| Graphical target | Reached after 15.045 s in userspace |
+| Failed system units | 0 |
+| Guest memory reported by `free -m` | 717 MiB used, 3,165 MiB available, 3,883 MiB total |
+| Swap used | 0 MiB of 1,327 MiB |
+| CPU idle, five one-second intervals | 99%, 99%, 100%, 99%, 100% |
+
+## Stage 1 VM comparison
+
+These readings come from the same VM with VMware 3D acceleration enabled and QTerminal open.
+
+| Session | RAM used | CPU idle across five samples | Swap used | Failed system units |
+|---|---:|---:|---:|---:|
+| LXQt on Xorg with Openbox | 725 MiB | 99–100% | 0 MiB | 0 |
+| LXQt on Wayland with Labwc | 821 MiB | 94–100% | 0 MiB | 0 |
+| LXQt on Wayland with Wayfire | 717 MiB | 99–100% | 0 MiB | 0 |
+
+Wayfire used 104 MiB less than Labwc and 8 MiB less than Xorg in these readings. Each session has one idle memory reading in this comparison. Boot timings describe system startup, and sign-in and stopwatch boot-to-greeter timings were not measured. The physical-hardware memory acceptance test and compositor selection remain open.
