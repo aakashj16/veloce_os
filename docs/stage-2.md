@@ -1,14 +1,14 @@
 # Stage 2 · HW-01 hardware foundation
 
-**Status** — In progress. Windows System Information confirms the HP 15s-dr2xxx family, UEFI mode and Secure Boot On. The remaining device inventory and native Linux checks are pending.
+**Status** — In progress. The Windows hardware inventory identifies the HP 15s-dr2007tx, BIOS Insyde F.68, UEFI mode and Secure Boot On. Native Linux checks are pending.
 
 Use Debian 13 amd64 and **LXQt on Xorg with Openbox** as the Stage 2 baseline. [Draft PR #2](https://github.com/aakashj16/veloce_os/pull/2) records the Stage 1 VMware results. The 725 MiB Xorg reading is a VM reference. Record live-session measurements separately from installed-system acceptance. The production session decision is tracked in [ADR 0002](adr/0002-desktop-sessions.md).
 
 ## 1. Complete the Windows inventory
 
-The [hardware matrix](hardware-test-matrix.md#first-reference-laptop) records an HP Laptop 15s-dr2xxx with Windows 11, an Intel Core i5-1035G1, 16 GB RAM, Intel UHD Graphics and an NVIDIA GeForce MX130 with 2 GB VRAM. Windows reported 1.14 TB of total storage. This is a suitable amd64 reference candidate. Prioritize Wi-Fi and graphics, including which GPU drives the external display. The product SKU, storage layout and device chipsets still need to be identified.
+The [hardware matrix](hardware-test-matrix.md#first-reference-laptop) records the Windows evidence for both GPUs, Intel AX201 Wi-Fi, Realtek Ethernet, Intel Bluetooth, Intel SST/Realtek audio, the webcam and both internal drives. The inventory is sufficient to start live testing. Capture exact device IDs during the live session if needed for troubleshooting.
 
-1. Press **Win + R**, enter `msinfo32`, and record **BIOS Version/Date** and the Windows **Version** from System Summary. The System Model, BIOS Mode and Secure Boot State are already recorded. If variant-specific documentation is needed, record the non-unique HP product SKU.
+1. For future inventories, press **Win + R**, enter `msinfo32`, and record the System Model, System SKU, BIOS Version/Date, BIOS Mode, Secure Boot State and Windows Version.
 2. Open regular **Windows PowerShell** and run these read-only queries. They show device names and storage types.
 
    ```powershell
@@ -21,7 +21,7 @@ The [hardware matrix](hardware-test-matrix.md#first-reference-laptop) records an
        Format-Table MediaType, BusType, @{Name='SizeGiB'; Expression={[math]::Round($_.Size / 1GB, 1)}} -AutoSize
    ```
 
-   Keep the physical Wi-Fi, Ethernet, Bluetooth, audio and camera entries. For a generic name, use **Device Manager → Properties → Details → Hardware Ids** and record the vendor/device or vendor/product pair when shown (for example, `VEN_8086&DEV_XXXX`). Keep machine names, device instance paths, serial numbers, MAC addresses, SSIDs, credentials and recovery keys out of shared evidence.
+   Keep the physical Wi-Fi, Ethernet, Bluetooth, audio and camera entries. If a Windows hardware ID is needed, expand the device category in Device Manager, right-click the individual device, then select **Properties → Details → Hardware Ids**. Record the vendor/device or vendor/product pair when shown (for example, `VEN_8086&DEV_XXXX`). Keep machine names, device instance paths, serial numbers, MAC addresses, SSIDs, credentials and recovery keys out of shared evidence.
 
 3. Record the laptop panel resolution and scaling from **Settings → System → Display**, plus the external monitor port and available accessories for later testing.
 
@@ -40,7 +40,7 @@ Before booting external media, confirm the work device permits it and check that
 ## 3. Run the first native checks
 
 1. Record boot success, the image hash, `uname -r`, and the session. Run `printf '%s / %s\n' "$XDG_CURRENT_DESKTOP" "$XDG_SESSION_TYPE"` and `pgrep -x openbox`. Record **LXQt / x11** and a running Openbox process before counting the run as the Stage 2 baseline. If the stock live image starts with Xfwm4, record the result as a stock live hardware check. For the baseline image, use the [Stage 1 Xorg package list](https://github.com/aakashj16/veloce_os/blob/eb76c0fe778faebd525d7efefd1ca6c1d9d7cd37/system/packages/stage1-xorg.txt) to prepare and verify the Openbox session in the VM before the next physical run.
-2. Use `lspci -nnk` and `lsusb` to identify devices and loaded PCI drivers. Check native panel resolution, brightness and an external monitor, Wi-Fi connect/reconnect, Bluetooth pairing, speakers, microphone, webcam and touchpad. If initial checks pass, test lid-close and repeated suspend/resume, then recheck Wi-Fi, display and audio.
+2. Use `lspci -nnk` and `lsusb` to identify devices and loaded PCI drivers. Look for [`iwlwifi` on the AX201](https://www.intel.com/content/www/us/en/support/articles/000005511/wireless.html) and test Wi-Fi connect/reconnect plus wired Ethernet. Check Bluetooth pairing, speakers, the internal microphone, webcam and touchpad. If the internal microphone or speakers are missing and the kernel log reports an SOF firmware error, check Debian's [`firmware-sof-signed` package](https://packages.debian.org/trixie/firmware-sof-signed). Check the 1920 × 1080 panel, brightness and external monitor output with both GPUs enumerated. If initial checks pass, test lid-close and repeated suspend/resume, then recheck Wi-Fi, display and audio.
 3. Record per-device results in the [hardware matrix](hardware-test-matrix.md#physical-test-checklist). Use an approved disposable external device for filesystem write/eject tests. Defer encrypted installation and recovery to a disposable target. Track live-image and installed-system memory measurements separately using the [performance protocol](../README.md#what-the-performance-budgets-mean).
 
 References for the test paths include [Debian 13 release notes for live and HTTP boot](https://www.debian.org/News/2025/20250809), [HP's 15s-dr2000 family support page](https://support.hp.com/in-en/product/product-specs/hp-15s-dr2000-laptop-pc-series/32612075), [HP's general boot options](https://support.hp.com/in-en/document/ish_3891464-2337914-16), [HP's one-time USB boot instructions](https://www.hp.com/my-en/tech-takes/software/how-to/how-to-boot-from-usb-drive-on-windows-10-pcs.html), [Microsoft's BitLocker guidance](https://learn.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-key-management-faq) and [Microsoft's WSL 2 FAQ](https://learn.microsoft.com/en-us/windows/wsl/faq).
