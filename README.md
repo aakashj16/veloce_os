@@ -361,6 +361,8 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 **Exit gate:** All applicable baseline hardware checks pass on at least one reference laptop; unsupported hardware issues documented.
 
+**Stage 2 kickoff:** See the [HW-01 inventory review and test plan](docs/stage-2.md).
+
 ### Stage 3 — Browsers, communication and developer applications
 
 **Goal:** Match the real Windows productivity workflow, not just app launch.
