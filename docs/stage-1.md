@@ -1,6 +1,6 @@
 # Stage 1 · Minimal Debian desktop prototype
 
-**Status** — In progress. The first Xorg and Labwc VM runs passed the desktop checks. The matched Xorg measurements and Wayfire trial are pending.
+**Status** — In progress. The first Xorg and Labwc VM runs passed the desktop checks. The Xorg retest with VMware 3D enabled is recorded. The Wayfire trial is pending.
 
 This is the first slice of [BASE-001](requirements.md). Establish an LXQt login on Xorg with Openbox, then use a comparable VM configuration for the Labwc and Wayfire trials.
 
@@ -191,8 +191,33 @@ Run date **2026-11-10 (IST)**. VMware 3D acceleration was enabled, the Labwc Xwa
 | Swap used | 0 MiB of 1,327 MiB |
 | CPU idle, five one-second intervals | 99%, 94%, 99%, 99%, 100% |
 
-Stopwatch boot-to-greeter time and the full list of trial package versions are pending. Repeat the Xorg measurements with VMware 3D enabled before comparing sessions. The reference-hardware memory acceptance test remains open.
+Stopwatch boot-to-greeter time and the full list of trial package versions are pending. The reference-hardware memory acceptance test remains open.
+
+### Xorg retest with VMware 3D enabled
+
+On 2026-11-10 (IST), the same VM returned to LXQt on Xorg with VMware 3D acceleration enabled and QTerminal open. The Labwc trial packages were still installed.
+
+| Measurement | Xorg | Labwc |
+|---|---:|---:|
+| Guest memory used, `free -m` | 725 MiB | 821 MiB |
+| Guest memory available, `free -m` | 3,157 MiB | 3,061 MiB |
+| Swap used | 0 MiB | 0 MiB |
+| Failed system units | 0 | 0 |
+| CPU idle, five one-second intervals | 99%, 100%, 99%, 100%, 99% | 99%, 94%, 99%, 99%, 100% |
+
+Xorg used 96 MiB less in this pair of VM readings. Both sessions displayed the same `systemd-analyze time` figures, including 28.916 s startup and 10.974 s to the graphical target in userspace. Those figures describe system boot. Timing a desktop sign-in requires a separate measurement.
 
 ## Wayfire follow-up
 
-Trixie also ships [Wayfire](https://packages.debian.org/trixie/wayfire). Test it from the same Xorg snapshot with the same VM settings after the Labwc trial. The [Stage 1 exit gate](../README.md#stage-1--minimal-debian-desktop-proof-of-concept) requires both complete LXQt Wayland sessions and their initial measurements.
+Trixie also ships [Wayfire](https://packages.debian.org/trixie/wayfire). For this comparison, take a separate powered-off checkpoint of the current VM before installing Wayfire. Use the same VM settings and the pinned LXQt session helper from the Labwc trial. Keep the Labwc Xwayland override scoped to Labwc for the first Wayfire login.
+
+From LXQt on Xorg, install the package and check its version.
+
+```bash
+sudo apt install wayfire
+wayfire --version
+```
+
+Open `lxqt-config-session`. Under **Wayland Settings**, choose **Wayfire** and use `swaylock` as the screen locker. Log out and select **LXQt (Wayland)** in SDDM. Verify the session using `echo "$XDG_SESSION_TYPE"` and `pgrep -a -x wayfire`. If login fails, return to **LXQt** in SDDM and inspect `~/.local/share/sddm/wayland-session.log`.
+
+The [Stage 1 exit gate](../README.md#stage-1--minimal-debian-desktop-proof-of-concept) requires both complete LXQt Wayland sessions and their initial measurements.
