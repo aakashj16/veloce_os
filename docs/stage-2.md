@@ -1,14 +1,14 @@
 # Stage 2 · HW-01 hardware foundation
 
-**Status** — In progress. The existing Windows inventory has been reviewed. The remaining device inventory and all native Linux checks are pending.
+**Status** — In progress. Windows System Information confirms the HP 15s-dr2xxx family, UEFI mode and Secure Boot On. The remaining device inventory and native Linux checks are pending.
 
 Use Debian 13 amd64 and **LXQt on Xorg with Openbox** as the Stage 2 baseline. [Draft PR #2](https://github.com/aakashj16/veloce_os/pull/2) records the Stage 1 VMware results. The 725 MiB Xorg reading is a VM reference. Record live-session measurements separately from installed-system acceptance. The production session decision is tracked in [ADR 0002](adr/0002-desktop-sessions.md).
 
 ## 1. Complete the Windows inventory
 
-The [hardware matrix](hardware-test-matrix.md#first-reference-laptop) records an HP laptop with Windows 11, an Intel Core i5-1035G1, 16 GB RAM, Intel UHD Graphics and an NVIDIA GeForce MX130 with 2 GB VRAM. Windows reported 1.14 TB of total storage. This is a suitable amd64 reference candidate. Prioritize Wi-Fi and graphics, including which GPU drives the external display. The exact model, storage layout and device chipsets still need to be identified.
+The [hardware matrix](hardware-test-matrix.md#first-reference-laptop) records an HP Laptop 15s-dr2xxx with Windows 11, an Intel Core i5-1035G1, 16 GB RAM, Intel UHD Graphics and an NVIDIA GeForce MX130 with 2 GB VRAM. Windows reported 1.14 TB of total storage. This is a suitable amd64 reference candidate. Prioritize Wi-Fi and graphics, including which GPU drives the external display. The product SKU, storage layout and device chipsets still need to be identified.
 
-1. Press **Win + R**, enter `msinfo32`, and copy **System Model**, **BIOS Version/Date**, **BIOS Mode**, **Secure Boot State** and **Version** from System Summary. Copy only those fields.
+1. Press **Win + R**, enter `msinfo32`, and record **BIOS Version/Date** and the Windows **Version** from System Summary. The System Model, BIOS Mode and Secure Boot State are already recorded. If variant-specific documentation is needed, record the non-unique HP product SKU.
 2. Open regular **Windows PowerShell** and run these read-only queries. They show device names and storage types.
 
    ```powershell
@@ -31,7 +31,7 @@ The [hardware matrix](hardware-test-matrix.md#first-reference-laptop) records an
 |---|---|
 | Windows inventory and the existing VMware guest | Start immediately without removable media. Mount the live ISO as a virtual DVD to rehearse boot and session checks. VMware and WSL 2 provide guest environments. Native HP driver, power and display results require a physical boot. |
 | One-time UEFI boot from removable media | Preferred for native testing if permitted on the work laptop. Use a blank **8 GB USB stick** (about **7.45 GiB** nominal) or an approved spare external USB drive. Debian's LXQt live ISO is approximately 3.7 GiB. Writing the image replaces the target drive's contents. |
-| UEFI HTTP Boot | A no-stick native option on supported firmware. It requires model-specific support and an approved network boot setup. Consider it after identifying the exact HP model. |
+| UEFI HTTP Boot | A no-stick native option on supported firmware. HP documents network boot generally, but HTTP Boot support for HW-01 is unconfirmed. Use the removable-media route for native testing unless HTTP Boot support and an approved network setup are confirmed. |
 
 Use the current [Debian 13 LXQt amd64 live ISO](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/) and [verify it using Debian's signed checksums](https://www.debian.org/CD/verify). Record the image filename and hash. Rehearse in VMware before writing removable media. The [Debian 13.7 LXQt live package list](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-13.7.0-amd64-lxqt.iso.packages) includes Xorg, Xfwm4 and PulseAudio. Use the stock image for the initial hardware check. Prepare and verify Openbox and PipeWire/WirePlumber in the VM before using an image for the Stage 2 session and audio-stack checks.
 
@@ -43,4 +43,4 @@ Before booting external media, confirm the work device permits it and check that
 2. Use `lspci -nnk` and `lsusb` to identify devices and loaded PCI drivers. Check native panel resolution, brightness and an external monitor, Wi-Fi connect/reconnect, Bluetooth pairing, speakers, microphone, webcam and touchpad. If initial checks pass, test lid-close and repeated suspend/resume, then recheck Wi-Fi, display and audio.
 3. Record per-device results in the [hardware matrix](hardware-test-matrix.md#physical-test-checklist). Use an approved disposable external device for filesystem write/eject tests. Defer encrypted installation and recovery to a disposable target. Track live-image and installed-system memory measurements separately using the [performance protocol](../README.md#what-the-performance-budgets-mean).
 
-References for the test paths include [Debian 13 release notes for live and HTTP boot](https://www.debian.org/News/2025/20250809), [HP's one-time USB boot instructions](https://www.hp.com/my-en/tech-takes/software/how-to/how-to-boot-from-usb-drive-on-windows-10-pcs.html), [Microsoft's BitLocker guidance](https://learn.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-key-management-faq) and [Microsoft's WSL 2 FAQ](https://learn.microsoft.com/en-us/windows/wsl/faq).
+References for the test paths include [Debian 13 release notes for live and HTTP boot](https://www.debian.org/News/2025/20250809), [HP's 15s-dr2000 family support page](https://support.hp.com/in-en/product/product-specs/hp-15s-dr2000-laptop-pc-series/32612075), [HP's general boot options](https://support.hp.com/in-en/document/ish_3891464-2337914-16), [HP's one-time USB boot instructions](https://www.hp.com/my-en/tech-takes/software/how-to/how-to-boot-from-usb-drive-on-windows-10-pcs.html), [Microsoft's BitLocker guidance](https://learn.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-key-management-faq) and [Microsoft's WSL 2 FAQ](https://learn.microsoft.com/en-us/windows/wsl/faq).

@@ -5,18 +5,18 @@
 | Field | Inventory |
 |---|---|
 | Reference ID | HW-01 |
-| Make and model | HP laptop selected. Exact system model pending. |
+| Make and model | HP Laptop 15s-dr2xxx (Windows System Model). Exact product SKU pending. |
 | CPU and architecture | Intel Core i5-1035G1, x86-64 (amd64) |
 | Installed RAM | 16 GB |
 | Integrated and discrete GPU | Intel UHD Graphics and NVIDIA GeForce MX130 (2 GB) |
 | Wi-Fi, Bluetooth and audio chipsets | Pending |
 | Storage type and available test drive | 1.14 TB total reported by Windows. Drive types, physical disk layout and disposable test drive pending. |
-| Firmware version, UEFI and Secure Boot state | Pending |
+| Firmware version, UEFI and Secure Boot state | UEFI, Secure Boot On. BIOS version/date pending. |
 | Internal display, scaling and external monitor connection | No pen or touch input reported. Resolution, scaling and external monitor connection pending. |
 | Webcam, wired headset and Bluetooth test devices | Pending |
 | Baseline OS, test image and kernel | 64-bit Windows 11 work laptop. Windows build, Debian test image and kernel pending. |
 
-The first physical reference laptop is selected. Use `msinfo32` in Windows to record the exact System Model before publishing device-specific compatibility results. Record selected fields only. In a Debian live session, `lspci -nnk` and `lsusb` help identify the chipsets and loaded drivers. See the [Stage 2 guide](stage-2.md) for the Windows inventory steps, test media and first native checks. Use a disposable target for installation and recovery tests.
+Windows System Information confirms the model family and current boot settings. The family name does not identify the exact HP product SKU or establish whether the laptop supports UEFI HTTP Boot. In a Debian live session, `lspci -nnk` and `lsusb` help identify the chipsets and loaded drivers. See the [Stage 2 guide](stage-2.md) for the Windows inventory steps, test media and first native checks. Use a disposable target for installation and recovery tests.
 
 ## Physical test checklist
 
