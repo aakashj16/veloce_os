@@ -1,6 +1,6 @@
 # Stage 1 · Minimal Debian desktop prototype
 
-**Status** — In progress. The first Xorg VM passed the desktop checks. Labwc and Wayfire trials are pending.
+**Status** — In progress. The first Xorg and Labwc VM runs passed the desktop checks. The matched Xorg measurements and Wayfire trial are pending.
 
 This is the first slice of [BASE-001](requirements.md). Establish an LXQt login on Xorg with Openbox, then use a comparable VM configuration for the Labwc and Wayfire trials.
 
@@ -99,7 +99,7 @@ ef04d0276850d70e4aaec0b55003628660e9631b26e35215a70ab3c8c707294a4b12731bc73c75a9
 
 The VM hit a virtual CPU fault during legacy BIOS startup. Switching its firmware to UEFI reached the boot manager and allowed installation from the verified ISO. The first graphical login opened KDE Plasma on Wayland. Selecting **LXQt** in the SDDM session menu provided the Xorg session for these tests.
 
-The run used an open QTerminal. Stopwatch boot-to-greeter time, virtual graphics settings and the full installed package inventory are pending. The physical-hardware memory acceptance test and both Wayland trials remain open.
+The run used an open QTerminal. Stopwatch boot-to-greeter time, virtual graphics settings and the full installed package inventory are pending. The physical-hardware memory acceptance test remains open.
 
 ## 5. Trial LXQt with Labwc
 
@@ -168,7 +168,30 @@ On 2026-11-10 (IST), the session helper built successfully. Labwc 0.8.3 started 
    echo 'XWAYLAND_NO_GLAMOR=1' > ~/.config/labwc/environment.d/90-stage1-xwayland.env
    ```
 
-The retry displayed the LXQt desktop and QTerminal. `XDG_SESSION_TYPE` returned `wayland`, and the running Labwc process launched `lxqt-session`. File manager, DNS, lock and unlock, logout, repeat login after reboot, and measurements are pending. Remeasure Xorg with VMware 3D enabled before comparing performance. See the [Debian Xwayland manual](https://manpages.debian.org/trixie/xwayland/Xwayland.1.en.html#XWAYLAND_NO_GLAMOR).
+The retry displayed the LXQt desktop and QTerminal. `XDG_SESSION_TYPE` returned `wayland`, and the running Labwc process launched `lxqt-session`. See the [Debian Xwayland manual](https://manpages.debian.org/trixie/xwayland/Xwayland.1.en.html#XWAYLAND_NO_GLAMOR).
+
+### First Labwc VM run
+
+Run date **2026-11-10 (IST)**. VMware 3D acceleration was enabled, the Labwc Xwayland override was active, and QTerminal was open during measurement.
+
+| Check | Result |
+|---|---|
+| Debian boot and LXQt Wayland sign-in | Pass, including sign-in after a VM power cycle |
+| QTerminal and file manager | Pass. Home and Downloads opened |
+| DNS lookup | Pass |
+| Lock and password unlock | Pass on retest. The first unlock showed swaylock’s `Wrong` indicator and the VM was powered off. The cause of the first rejection is unconfirmed |
+| Logout and repeat login | Pass |
+
+| Measurement | Result |
+|---|---|
+| System startup | 28.916 s. Kernel 17.938 s, userspace 10.977 s |
+| Graphical target | Reached after 10.974 s in userspace |
+| Failed system units | 0 |
+| Guest memory reported by `free -m` | 821 MiB used, 3,061 MiB available, 3,883 MiB total |
+| Swap used | 0 MiB of 1,327 MiB |
+| CPU idle, five one-second intervals | 99%, 94%, 99%, 99%, 100% |
+
+Stopwatch boot-to-greeter time and the full list of trial package versions are pending. Repeat the Xorg measurements with VMware 3D enabled before comparing sessions. The reference-hardware memory acceptance test remains open.
 
 ## Wayfire follow-up
 
