@@ -101,6 +101,63 @@ The VM hit a virtual CPU fault during legacy BIOS startup. Switching its firmwar
 
 The run used an open QTerminal. Stopwatch boot-to-greeter time, virtual graphics settings and the full installed package inventory are pending. The physical-hardware memory acceptance test and both Wayland trials remain open.
 
-## Wayland follow-up
+## 5. Trial LXQt with Labwc
 
-Trixie packages [Labwc](https://packages.debian.org/trixie/labwc) and [Wayfire](https://packages.debian.org/trixie/wayfire). The Debian package index lists [LXQt's Wayland session package](https://packages.debian.org/search?keywords=lxqt-wayland-session) only for testing and unstable. Keep the Trixie package sources. Evaluate a versioned upstream LXQt 2.1-compatible session integration or a suitable Trixie backport in a VM checkpoint. Then verify complete LXQt login, lock and logout with each compositor. A standalone compositor login is useful for diagnosis. The [Stage 1 exit gate](../README.md#stage-1--minimal-debian-desktop-proof-of-concept) requires the complete LXQt sessions and recorded baselines.
+Start from the powered-off **Stage 1 – Xorg baseline** VMware snapshot. If the VM is already at that baseline, power it on normally. Sign in to **LXQt** on Xorg and open QTerminal.
+
+Trixie ships [Labwc](https://packages.debian.org/trixie/labwc) and LXQt 2.1, while Debian's [Wayland session package](https://packages.debian.org/search?keywords=lxqt-wayland-session) is available for testing and unstable. For this disposable VM, use upstream [lxqt-wayland-session 0.1.0](https://github.com/lxqt/lxqt-wayland-session/releases/tag/0.1.0), the release paired with LXQt 2.1. Keep the Trixie APT sources and existing desktop packages.
+
+### Install the trial packages
+
+```bash
+sudo apt update
+sudo apt install labwc swaybg swaylock qt6-wayland
+sudo apt install build-essential cmake pkgconf liblxqt-dev qt6-tools-dev libkf6windowsystem-dev xdg-user-dirs
+```
+
+Labwc runs the Wayland session. Swaylock is for the lock and unlock test. Swaybg supplies the wallpaper used in the upstream Labwc configuration. The second install command adds the tools needed to build the session helper.
+
+### Build the pinned session helper
+
+Run these from the VM user's home directory. The checkout and build use the regular account. Only the final install requires sudo. The upstream project uses the `/usr` install prefix for these session files.
+
+```bash
+cd ~
+git clone --depth 1 --branch 0.1.0 https://github.com/lxqt/lxqt-wayland-session.git
+cd lxqt-wayland-session
+git rev-parse HEAD
+```
+
+The commit must be `c8cbc996b58bce24c2564b62b99c4f6970106bf3`. If it matches, run:
+
+```bash
+cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/usr
+cmake --build build
+```
+
+Proceed only if both commands succeed.
+
+```bash
+sudo cmake --install build
+ls /usr/share/wayland-sessions/lxqt-wayland.desktop
+```
+
+### Start and check the Labwc session
+
+1. While still in LXQt on Xorg, run `lxqt-config-session`. Under **Wayland Settings**, choose **Labwc** as the compositor and enter `swaylock` as the Wayland screen locker command. Save the changes.
+2. Log out. In the SDDM session selector, choose **LXQt (Wayland)** and sign in. Select **LXQt** in the same menu to return to the Xorg session if the trial fails to start.
+3. In QTerminal, verify that the desktop name contains `LXQt`, the session type is `wayland`, and the Labwc process is running.
+
+   ```bash
+   echo "$XDG_CURRENT_DESKTOP"
+   echo "$XDG_SESSION_TYPE"
+   pgrep -a -x labwc
+   ```
+
+4. Repeat the file manager, network, lock and unlock, logout, and reboot checks. Record the same initial performance measurements as the Xorg run and capture the package versions for this trial. If the Wayland login returns to the greeter, keep the relevant lines from `~/.local/share/sddm/wayland-session.log` before retrying. Remove personal data before publishing excerpts.
+
+The source integration has been reviewed against Trixie package information. The build, login, and lock behavior are pending VM validation.
+
+## Wayfire follow-up
+
+Trixie also ships [Wayfire](https://packages.debian.org/trixie/wayfire). Test it from the same Xorg snapshot with the same VM settings after the Labwc trial. The [Stage 1 exit gate](../README.md#stage-1--minimal-debian-desktop-proof-of-concept) requires both complete LXQt Wayland sessions and their initial measurements.
