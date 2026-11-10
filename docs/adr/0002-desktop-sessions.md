@@ -1,12 +1,12 @@
 # ADR 0002 · Wayland candidates and Xorg session
 
-**Status** — Evaluation plan accepted. Default session pending Stage 4 results.
+**Status** — Evaluation plan accepted. Xorg/Openbox favored as the provisional Stage 1 baseline (2026-11-10); final production default pending Stage 4/8 evidence.
 
-Compare LXQt with Labwc and Wayfire using the same Debian base, services, hardware and measurement protocol. Record the compositor, portal backend, PipeWire, browser and native Zoom versions. Compare memory, CPU, GPU effects, battery, suspend/resume, scaling, accessibility, crash recovery and meeting capture before choosing the default.
+Initial Stage 1 functional testing found LXQt + Xorg/Openbox simpler and more dependable than the evaluated Labwc and Wayfire sessions. That observation is not a certification of performance or universal stability. Use Xorg/Openbox as the provisional desktop baseline. Continue comparing LXQt with Labwc and Wayfire using the same Debian base, services, hardware and measurement protocol. Record the compositor, portal backend, PipeWire, browser and native Zoom versions. Compare memory, CPU, GPU effects, battery, suspend/resume, scaling, accessibility, crash recovery and meeting capture before choosing the default.
 
-Provide LXQt on Xorg with Openbox as a selectable login session for native Zoom window sharing. Test it as a complete desktop session. XWayland is available for compatible X11 apps within the Wayland candidates.
+Provide LXQt on Xorg with Openbox as a selectable login session for native Zoom window sharing, testing it as a complete desktop session. Standard and Enhanced are **performance modes**, not compositors or separate display stacks. Enhanced does not require Wayfire; design is matte-first with optional refined effects. See [ADR 0003](0003-visual-identity-and-performance-modes.md). XWayland is available for compatible X11 apps within the Wayland candidates.
 
-The stock Debian 13 wlr screen cast backend selects a display output. A proposed Wayland default must pass the required Firefox ESR and Chrome meeting tests and the Notes privacy checks. Xorg can be a provisional prototype default while those checks are open. Record browser or client limitations separately and verify them on Xorg before attributing them to Wayland. Verify native Zoom against the vendor's documented session capabilities.
+The stock Debian 13 wlr screen cast backend selects a display output. A proposed Wayland default must pass the required Firefox ESR and Chrome meeting tests and the Notes privacy checks. Xorg is the provisional prototype default while those checks are open; no change to the protected Notes security gate is implied. Record browser or client limitations separately and verify them on Xorg before attributing them to Wayland. Verify native Zoom against the vendor's documented session capabilities.
 
 ## Protected Notes surface
 
