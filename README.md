@@ -2,11 +2,12 @@
 
 **A lightweight Linux desktop, built for real work.**
 
-> **Status:** Planning / architecture specification (v0.2)  
-> **Document date:** 2026-11-08  
+> **Status:** Planning / architecture specification (v0.3)  
+> **Document date:** 2026-11-10  
 > **Primary architecture:** x86-64 (`amd64`) laptops and desktops  
 > **Foundation:** Debian 13 (Trixie), Linux kernel, LXQt, Qt/QML  
-> **Primary performance goal:** **≤ 1 GiB (1,024 MiB) idle system memory** with the full baseline desktop and system services operational  
+> **Performance modes:** **Standard** — ≤ 1 GiB (1,024 MiB) idle; **Enhanced** — prefer ≤ 1 GiB, hard ceiling **2 GiB (2,048 MiB)** idle, with normal baseline services operational  
+> **Independent visual themes:** **Graphite** (matte dark) and **Pearl** (clean light), available in both modes  
 > **Repository:** `veloce_os` (public GitHub repository, source-available)  
 > **Project type:** Custom Linux distribution and desktop experience — **not** a new operating-system kernel
 
@@ -18,7 +19,7 @@ The ideal experience is:
 
 - **Lightweight:** Minimize always-running processes and idle RAM/CPU consumption.
 - **Complete:** Work reliably with laptop hardware, networking, meetings, browsers, messaging, productivity tools, and development tools.
-- **Elegant:** macOS-inspired translucency, a floating dock, thoughtful animations, a compact top bar, and an expandable **Dynamic Island–style** status interface.
+- **Elegant and original:** A matte-first Veloce identity with Graphite/Pearl themes, consistent typography and icons, a floating dock, restrained animations, a compact top bar, and a functional Veloce status hub. No macOS imitation or dependency on live blur.
 - **Reliable:** Sensible defaults, secure updates, backups, diagnostics, tested suspend/resume, and safe installation/recovery.
 - **Maintainable:** Reuse upstream Linux components rather than rewriting proven subsystems; keep custom features modular and version-controlled.
 
@@ -34,31 +35,34 @@ A milestone is complete only when its requirements are **tested and documented**
 
 | ID | Requirement | Release acceptance |
 |---|---|---|
-| PERF-001 | **Idle system memory ≤ 1,024 MiB** | Five consecutive measurements after a 10-minute idle settling period on each reference laptop/configuration; normal services enabled; no user apps open |
-| PERF-002 | Preferred idle memory ≤ 800 MiB | Stretch goal; report actual measurements, do not claim until achieved |
+| PERF-001 | **Standard idle system memory ≤ 1,024 MiB (1 GiB)** | All five samples at or below ceiling after 10-minute idle settling period on each supported configuration; full normal services, no user apps open |
+| PERF-002 | **Standard idle memory ≤ 800 MiB** | Stretch goal only; report actual measurements |
+| PERF-004 | **Enhanced idle memory ≤ 2,048 MiB (2 GiB)** | Hard upper limit: all five samples at or below ceiling on each supported Enhanced configuration; preferred optimization target ≤ 1,024 MiB |
 | PERF-003 | Low idle CPU / battery impact | Capture CPU, wakeups, GPU use, thermals, power draw and battery runtime; establish baselines against installed Windows and/or stock Debian |
 | CORE-001 | Complete laptop and desktop functionality | All applicable hardware tests in Section 5 pass on supported devices |
 | APPS-001 | Real productivity | Firefox, Chrome, Edge and Brave compatibility; VLC; browser-only Telegram and WhatsApp; Zoom, VS Code, Python, SQL, Google Workspace, Microsoft 365 web, and optional offline office validated |
 | MEET-001–003 | Meeting screen sharing | Test native Zoom on Xorg and Meet/Zoom Web by session, browser and capture source using the [meeting acceptance matrix](docs/compatibility.md#meeting-tests) |
 | NOTES-001 | Private presenter notes | Verify the pin toggle and [capture exclusion](docs/compatibility.md#notes-privacy-tests), including on a shared display that locally shows Notes |
 | SEC-001 | Secure and maintainable | Encryption, updates, firewall, permissions, backups and recovery tested |
-| UX-001 | Functional elegant UI | Dock, notifications, system controls, accessibility basics and Island work without preventing core workflow |
+| UX-001 | Functional original Veloce UI | Dock, notifications, status hub, system controls and accessibility work without breaking core workflows |
+| UX-002 | Independent performance mode and visual theme | Standard/Enhanced operate independently of Graphite/Pearl; all four combinations function, persist across login and meet their applicable performance budgets |
 | REL-001 | Boot, sleep, resume and updates work | Repeated end-to-end testing; no critical data-loss, boot or update regressions |
 | DIST-001 | Installable distribution | Bootable live ISO; tested installer, bootloader, firmware and rollback/recovery instructions |
 
-### What the 1 GiB requirement means
+### What the performance budgets mean
 
-The target is **idle OS memory**, not the total RAM used while applications are running and **not** a claim that a machine with 1 GiB installed RAM can run Zoom, browsers, VS Code, and development tools.
+These are **idle operating-system memory budgets**, not minimum installed RAM specifications and not memory usage while browsers, meetings, IDEs or databases are active.
 
-- Measure a fresh, fully logged-in **Veloce Glass** session with Wi-Fi, Bluetooth, audio, notifications, file management, power management, firewall, session/lock services and ordinary background system services operational.
-- No browser, Zoom, IDE, database server, media player, office suite, or messaging window open during the idle benchmark. Required services must not be disabled merely to pass the benchmark.
-- Where possible, keep resource-intensive applications **installed but not running** until requested. Databases, container daemons, cloud syncing and indexing should be on-demand or explicitly enabled when needed.
-- Use `MemTotal - MemAvailable` from `/proc/meminfo` as the **primary system-memory-used proxy**, converted to MiB; also collect `free -m`, per-process RSS/PSS (where available), kernel/slab stats, swap/zram state and GPU shared-memory caveats.
-- Reboot between benchmark runs; wait 10 minutes after login, then take five samples at 60-second intervals. Record hardware, kernel, image hash, compositor, theme, screen resolution, network state, enabled services, and sample-level outputs.
-- Compare equivalent configurations. A virtual machine is useful for early iteration **but is not sufficient** to certify the memory target on real laptops.
-- If a full glass effect breaks the hard limit, optimize it or use a different implementation. **The requirement does not disappear.**
+- **Standard:** target and hard acceptance ceiling **≤ 1,024 MiB (1 GiB)**; a separate **≤ 800 MiB** stretch goal is tracked but not required.
+- **Enhanced:** optimize toward **≤ 1,024 MiB** where feasible, with **≤ 2,048 MiB (2 GiB)** as its non-negotiable idle acceptance ceiling. Enhanced is not considered failed merely because it uses more than 1 GiB, provided it passes its own hard limit and responsiveness/power gates.
+- **Graphite** (matte dark) and **Pearl** (clean light) are **themes, not performance profiles**; either theme must work in Standard and Enhanced without materially altering the mode's service/capability requirements.
+- Benchmark each shipped **mode × theme × supported hardware/session** combination after a fresh login with Wi-Fi, Bluetooth, audio, notifications, power management, firewall, screen lock and ordinary services enabled. No browser, Zoom, IDE, database engine or office suite should be open for an idle benchmark.
+- Use `MemTotal - MemAvailable` from `/proc/meminfo` as the primary used-memory proxy in MiB; additionally record `free -m`, process RSS/PSS, swap/zram, kernel memory and any shared GPU memory caveats.
+- Reboot between benchmark runs; wait **10 minutes after login**, then collect **five samples 60 seconds apart**. Record hardware, kernel, image/commit hash, display session, compositor, mode, theme, monitor configuration, enabled services and sample results.
+- Benchmark CPU/GPU cost, frame-time responsiveness, thermal behavior and battery draw alongside RAM. Animated effects must degrade gracefully; do **not** disable baseline security, audio, networking or notification services to meet a budget.
+- **Hardware planning, pending Stage 8 evidence:** support 4 GiB installed RAM where practical for Standard; recommend 8 GiB for Enhanced and 8–16 GiB for multitasking. Installed RAM is not the idle consumption ceiling. VMs are useful prototypes, but real-laptop measurements are required to certify support.
 
-**Initial practical hardware planning assumption:** 4 GiB installed RAM may be enough to test a basic OS session, but **8–16 GiB or more** is preferable for modern browsers, video meetings, IDEs and development workloads. Final minimum hardware requirements will follow real testing, not guesswork.
+These targets are **requirements, not achieved benchmarks**. See [ADR 0003](docs/adr/0003-visual-identity-and-performance-modes.md) for the accepted product direction.
 
 ## 3. Proposed architecture
 
@@ -70,8 +74,8 @@ The target is **idle OS memory**, not the total RAM used while applications are 
 │ Custom Qt/QML components, isolated and failure-tolerant      │
 ├───────────────────────────────────────────────────────────────┤
 │ DESKTOP / COMPOSITOR                                         │
-│ LXQt + Wayfire [candidate] / LXQt + Labwc [candidate]        │
-│ Wayland + XWayland; LXQt + Xorg/Openbox compatibility session│
+│ LXQt + Xorg/Openbox [provisional prototype baseline]        │
+│ Wayland + Labwc / Wayfire [alternate sessions under review]  │
 │ Display manager, lock screen, session and window management  │
 ├───────────────────────────────────────────────────────────────┤
 │ APPLICATIONS                                                 │
@@ -98,9 +102,10 @@ The target is **idle OS memory**, not the total RAM used while applications are 
 | Base | **Debian 13 Stable (Trixie)** | Security maintenance, predictable APT repository, broad hardware/software ecosystem; pin suite/version for builds |
 | Architecture | **amd64 first** | Highest priority for common laptops, Zoom/VS Code and requested desktop apps; ARM64 is a later evaluation |
 | Desktop | **LXQt** | Modular, Qt-based, adaptable, with Wayland compositor options |
-| Compositor candidate A | **Wayfire** | Visual effects and animations suitable for glass design; must validate memory/GPU cost |
-| Compositor candidate B | **Labwc** | Leaner baseline to benchmark against Wayfire; custom effects may require additional implementation |
-| Compatibility session | **LXQt on Xorg**, likely Openbox | Essential fallback for Zoom application-window sharing and legacy apps; test explicitly |
+| Provisional prototype baseline | **LXQt + Xorg/Openbox** | Favored by initial Stage 1 usability observations; retain because of compatibility and native Zoom window-sharing requirements; production default not certified |
+| Wayland evaluation candidate | **LXQt + Labwc** | Lean Wayland comparator; may become the preferred modern session after full acceptance tests |
+| Optional effects candidate | **LXQt + Wayfire** | Evaluate only if specific Enhanced effects justify its complexity, GPU usage and session reliability |
+| Legacy-app support on Wayland | **Xwayland** | Run compatible X11 applications where supported; does not imply native Zoom window-sharing parity |
 | Custom interface | **Qt/QML** | Build isolated native-feeling widgets and UI rather than replacing every subsystem |
 | Graphics compatibility | **XWayland** | Support for X11 applications within a Wayland session where compatible |
 | Sound | **PipeWire + WirePlumber + ALSA** | Multimedia routing, microphones, jack, Bluetooth audio |
@@ -109,16 +114,24 @@ The target is **idle OS memory**, not the total RAM used while applications are 
 | Image creation | **Debian `live-build`** | Configure repeatable ISO builds |
 | Installer | **Calamares**, subject to integration tests | Graphical installation, encryption/partition and bootloader scenarios |
 
-**Decision gate:** Do not lock in Wayfire (or Labwc) until both have been compared for RAM, idle CPU, GPU/blur impact, suspend/resume, screen sharing, multi-monitor behavior, accessibility, and crash recovery.
+**Decision gate:** Xorg/Openbox is the **provisional prototype baseline**, not an irreversible release decision. Compare Xorg, Labwc and Wayfire with the same real-device benchmarks, power/graphics checks, meeting and Notes privacy tests before selecting any production default. Standard and Enhanced should share one dependable base where feasible; Enhanced must not require Wayfire or blur.
 
-### Glass appearance without unnecessary weight
+### Independent performance modes and visual themes
 
-Two desktop profiles will be shipped:
+Veloce has **one operating-system foundation**, not separate Standard and Enhanced distributions. Users can select a performance mode and visual theme independently.
 
-1. **Veloce Glass (default):** Floating dock, translucency, gentle blur, rounded corners, minimal top bar, adaptive Island, short animations.
-2. **Veloce Light:** Reduced blur and motion, identical basic controls and usability, useful on older GPUs or on battery.
+| Axis | Choice | Meaning |
+|---|---|---|
+| Performance | **Standard** | Complete, dependable matte desktop with essential controls, restrained effects and ≤ 1 GiB idle ceiling |
+| Performance | **Enhanced** | Same functionality and themes, with optional refined transitions, subtle shadows and compositing effects; **≤ 1 GiB preferred, ≤ 2 GiB hard** idle |
+| Appearance | **Graphite** | Original dark matte charcoal surfaces, restrained accents, consistent contrast and typography |
+| Appearance | **Pearl** | Original warm/light neutral surfaces with the same component system and accessible contrast |
 
-Both must meet PERF-001 on designated supported hardware. Heavy GPU effects are never mandatory for notification delivery, audio controls or core desktop operation.
+Support all four combinations: **Standard + Graphite**, **Standard + Pearl**, **Enhanced + Graphite**, **Enhanced + Pearl**. Switching modes or themes must not require reinstalling the OS. Accessibility and reduced-motion controls override decorative effects in either mode.
+
+**Visual principle:** Polish comes from deliberate spacing, clear hierarchy, original iconography, readable typography, matte layered surfaces, subtle borders and selective animation. **Do not depend on live blur, translucent glass everywhere, or copying Apple's appearance.** Prefer simple rendering paths and hardware-appropriate effects; preserve reliability and battery life.
+
+The original floating dock, launcher, notification/status hub, quick controls and modular Qt/QML direction remain in scope, but their design must be distinctively Veloce. Graphite/Pearl themes are appearance choices; do not describe them as separate builds or as RAM tiers. See [ADR 0003](docs/adr/0003-visual-identity-and-performance-modes.md).
 
 ### Modular custom components
 
@@ -195,8 +208,8 @@ All capabilities listed here are part of the **baseline compatibility scope**. T
 
 As documented by Zoom, on Linux **Wayland sessions support entire-desktop or whiteboard sharing but not specific application-window sharing**; application-window sharing requires Xorg. Therefore:
 
-- Provide and test the primary **Wayland** desktop with XDG Desktop Portal + PipeWire integration.
-- Provide and test an **Xorg session** for native Zoom application-window sharing.
+- Retain **Xorg/Openbox as the provisional prototype desktop**, including native Zoom application-window sharing.
+- Continue testing **Wayland/Labwc and Wayland/Wayfire** using XDG Desktop Portal + PipeWire integration; neither is yet certified as the production default.
 - Verify browser tab, one application window, and selected display sharing in Google Meet and Zoom Web with both Firefox ESR and Chrome. Test the same modes in the installed Chrome-based Meet web app. For native Zoom, test an individual window and a selected display on Xorg.
 - Compare both Wayland candidates with the actual portal backend. A Wayland session must pass the browser meeting matrix and the Notes privacy checks before it can become the default. See [meeting and Notes requirements](docs/requirements.md) for the session criteria.
 - Certify real meetings with microphones, webcams, Bluetooth headsets, multiple monitors, share audio, join/leave and suspend/resume.
@@ -260,7 +273,7 @@ Use **PASS / FAIL / BLOCKED / NOT APPLICABLE**, record test machine and kernel v
 
 | Dimension | Measurement | Target / status |
 |---|---|---|
-| RAM at idle | `MemTotal - MemAvailable` in MiB | **Hard: ≤ 1,024 MiB**; stretch ≤ 800 MiB |
+| RAM at idle | `MemTotal - MemAvailable` in MiB | **Standard: ≤ 1,024 MiB hard; ≤ 800 MiB stretch. Enhanced: ≤ 2,048 MiB hard; ≤ 1,024 MiB preferred.** |
 | Idle CPU | Per-core and whole-system CPU utilization | Record baseline; improvement over earlier release |
 | CPU wakeups / GPU | Powertop or equivalent, compositor GPU/render metrics | Minimize overhead; no fixed number before hardware benchmark |
 | Cold boot to usable desktop | Timestamp from power/boot to usable login/session | Baseline first; optimization later |
@@ -367,34 +380,34 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 ### Stage 4 — Performance baseline and compositor selection
 
-**Goal:** Prove feasibility of the **≤ 1 GiB idle RAM** requirement with full core services.
+**Goal:** Establish Standard's ≤ 1 GiB and Enhanced's ≤ 2 GiB hard idle budgets with full core services; test whether Enhanced can also stay near 1 GiB.
 
 **Deliverables**
 - [ ] Standardized idle benchmark harness and clean-run procedure
 - [ ] Five-sample measurements on Wayfire, Labwc and X11 baseline sessions
-- [ ] CPU, GPU/blur, battery, suspend and multi-monitor comparisons
+- [ ] CPU, GPU, frame time, battery, suspend and multi-monitor comparisons, prioritizing matte and low-effects rendering
 - [ ] Services/startup review; remove unnecessary daemons safely
 - [ ] Architecture decision: primary compositor and custom-component constraints, including capture protection for Notes
 - [ ] Performance regression checks prepared for subsequent builds
 
-**Exit gate:** Chosen baseline meets ≤ 1,024 MiB idle on reference hardware, **or** documented optimization plan plus explicit stage failure; no false success claims.
+**Exit gate:** The Standard baseline meets ≤ 1,024 MiB idle on reference hardware (or Stage 4 records explicit failure and an optimization plan). Establish Enhanced's ≤ 2,048 MiB budget and test plan; Stage 5 must verify the complete Enhanced UI. No unsupported success claims.
 
 ### Stage 5 — Veloce visual experience
 
-**Goal:** Build the polished macOS-inspired experience on the validated foundation.
+**Goal:** Build a distinctive matte-first Veloce experience in Standard and Enhanced modes, each with Graphite and Pearl themes, on the validated foundation.
 
 **Deliverables**
-- [ ] Visual design system: typography, original icons, spacing, blur and colors
+- [ ] Original Graphite/Pearl visual system: typography, icons, matte surfaces, contrast, spacing, borders and accent colors
 - [ ] Floating dock, application switcher, launcher and window behaviors
-- [ ] Dynamic Island-style status widget driven by real event integrations
+- [ ] Veloce status hub/activity capsule driven by real event integrations, without duplicating Apple's proprietary design
 - [ ] Unified controls: Wi-Fi, Bluetooth, audio, mic, battery, display brightness
 - [ ] Notifications, Do Not Disturb, privacy indicators and action handling
 - [ ] Settings and first-run onboarding
 - [ ] Notes app with pin toggle and verified capture exclusion on supported sessions
-- [ ] Glass and Light appearance profiles; accessibility/reduced-motion support
+- [ ] Independent Standard/Enhanced performance modes and Graphite/Pearl themes; optional lightweight effects and accessibility/reduced-motion support
 - [ ] Multi-monitor, scaling, keyboard accessibility and crash isolation tests
 
-**Exit gate:** All core controls work and **Veloce Glass stays ≤ 1,024 MiB at idle** on supported reference hardware; no unacceptable GPU or battery regression.
+**Exit gate:** Core controls work across all four mode/theme combinations. Standard stays ≤ 1,024 MiB idle; Enhanced stays ≤ 2,048 MiB idle and is optimized toward 1,024 MiB where feasible, with acceptable GPU, battery and responsiveness results on supported reference hardware.
 
 ### Stage 6 — Security, data protection and long-term maintenance
 
@@ -471,7 +484,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 ## 8. Milestone 1: the 1 GiB desktop
 
-This is the **first build we should implement** — **not** a custom glass desktop yet.
+This is the **first build we should implement** — a functional lightweight baseline, **not** the custom Veloce visual experience yet.
 
 - [ ] M1-01: Create repository structure and capture hardware inventory.
 - [ ] M1-02: Install Debian 13 minimally in a VM or spare/test drive.
@@ -484,7 +497,7 @@ This is the **first build we should implement** — **not** a custom glass deskt
 - [ ] M1-09: Test Google Workspace, Microsoft 365 web, optional LibreOffice, VS Code, Python venv and a SQL client.
 - [ ] M1-10: Record failures, choose architecture and define a fix backlog.
 
-**Definition of done:** A bootable prototype with a reproducible configuration, working essential applications, documented hardware limitations and a measured idle memory result. A passing result requires **≤ 1,024 MiB**, not an assumption.
+**Definition of done:** A bootable prototype with reproducible configuration, essential application workflows, documented hardware limitations and measured memory. The baseline Standard target requires **≤ 1,024 MiB**; Enhanced's separate ≤ 2,048 MiB acceptance gate applies once its UI exists. Neither target can be claimed without measured evidence.
 
 ## 9. Proposed repository structure
 
@@ -572,7 +585,7 @@ veloce_os/
 | Risk | Impact | Mitigation |
 |---|---|---|
 | Veloce name may conflict with an existing software product | Branding/public distribution risk | Maintain as codename until reviewed; rename before public release if needed |
-| Glass compositor exceeds 1 GiB target | Violates primary goal | Benchmark Wayfire vs Labwc; simplify effects; optimize QML; keep Light profile |
+| Enhanced exceeds 2 GiB idle or hurts GPU/battery | Violates Enhanced release gate | Profile individual effects; prioritize matte rendering; fall back to restrained animations; verify all four combinations on real hardware |
 | Zoom functionality differs across Wayland/Xorg | Meeting workflow failure | Ship documented X11 compatibility session; real meeting test gate |
 | Telegram/WhatsApp are browser-only in v1 | Browser-dependent calls and notifications | Test current web services; optional browser shortcuts; revisit native clients after v1 |
 | Vendor-specific laptop drivers/firmware | Wi-Fi/audio/sleep failure | Maintain hardware compatibility list and test real devices before making claims |
@@ -593,7 +606,7 @@ veloce_os/
 - Google Workspace and Microsoft 365 web; optional LibreOffice; file manager, terminal, screenshots, clipboard, documents, USB/external drives and Google Drive access.
 - Bluetooth, Wi-Fi, audio jack, webcam/microphone, brightness, volume, notifications, touchpad, function keys, battery/suspend and external displays.
 - Security, updates, encryption, backups, diagnostics, graphical installation and recovery.
-- Mac-inspired original glass interface, floating dock, Dynamic Island–style controls and Light performance profile.
+- Original matte-first Veloce interface with floating dock, status hub and quick controls; Standard/Enhanced performance modes and independent Graphite/Pearl themes.
 - Notes with optional always-on-top placement and capture exclusion on verified sessions.
 - Reproducible builds, performance tests and published supported-hardware limitations.
 
@@ -605,7 +618,7 @@ veloce_os/
 - Native desktop Microsoft Office parity, especially advanced Excel/VBA/Power Query features.
 - Universal compatibility with every laptop, especially unsupported proprietary hardware.
 - Any native Telegram or WhatsApp application in v1, or an unofficial/impersonated WhatsApp client.
-- Promising identical macOS visuals, behavior or access to Apple's proprietary services.
+- Reproducing macOS visuals, Apple-exclusive behaviors, proprietary assets, or promising access to Apple's proprietary services.
 - Replacing upstream security, audio, networking, boot or storage services with untested custom implementations.
 
 ## 13. Helpful upstream references
@@ -653,7 +666,7 @@ veloce_os/
 | Third-party attribution audit | **Not started** |
 | Prototype implementation | **Not started** |
 | Reference hardware testing | **Not started** |
-| 1 GiB benchmark result | **Not yet measured** |
+| Mode/theme benchmark results | **Not yet measured (Standard 1 GiB / Enhanced 2 GiB hard limits are targets)** |
 | Installer / live ISO | **Not built** |
 
 ---
