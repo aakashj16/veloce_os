@@ -156,7 +156,19 @@ ls /usr/share/wayland-sessions/lxqt-wayland.desktop
 
 4. Repeat the file manager, network, lock and unlock, logout, and reboot checks. Record the same initial performance measurements as the Xorg run and capture the package versions for this trial. If the Wayland login returns to the greeter, keep the relevant lines from `~/.local/share/sddm/wayland-session.log` before retrying. Remove personal data before publishing excerpts.
 
-The source integration has been reviewed against Trixie package information. The build, login, and lock behavior are pending VM validation.
+### First Labwc VM login
+
+On 2026-11-10 (IST), the session helper built successfully. Labwc 0.8.3 started the LXQt desktop after two VMware graphics issues were addressed:
+
+1. The initial log reported `VMware: No 3D enabled` and `EGL_NOT_INITIALIZED`. With the VM powered off, enable **VM → Settings → Hardware → Display → Accelerate 3D graphics**.
+2. The next login reached Xwayland but failed to import a DMA-BUF graphics buffer. For this VM, use the following Labwc-only override from the existing LXQt/Xorg session. This keeps VMware 3D enabled and disables Glamor and DRI3 in Xwayland for this trial.
+
+   ```bash
+   mkdir -p ~/.config/labwc/environment.d
+   echo 'XWAYLAND_NO_GLAMOR=1' > ~/.config/labwc/environment.d/90-stage1-xwayland.env
+   ```
+
+The retry displayed the LXQt desktop and QTerminal. `XDG_SESSION_TYPE` returned `wayland`, and the running Labwc process launched `lxqt-session`. File manager, DNS, lock and unlock, logout, repeat login after reboot, and measurements are pending. Remeasure Xorg with VMware 3D enabled before comparing performance. See the [Debian Xwayland manual](https://manpages.debian.org/trixie/xwayland/Xwayland.1.en.html#XWAYLAND_NO_GLAMOR).
 
 ## Wayfire follow-up
 
