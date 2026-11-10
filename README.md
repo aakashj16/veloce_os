@@ -323,17 +323,17 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 **Goal:** Demonstrate a minimal, usable graphical Debian desktop before building custom UI.
 
-Start with the [Stage 1 VM setup and Xorg checks](docs/stage-1.md). The guide records the Debian 13 Wayland session packaging gap and the follow-up for both candidate compositors.
+**Status** — Complete. The [Stage 1 guide](docs/stage-1.md) records the Debian 13 setup, results for all three sessions, and known VM issues.
 
 **Deliverables**
-- [ ] Reproducible Debian 13 amd64 minimal installation in a virtual machine
-- [ ] LXQt + Wayfire trial profile
-- [ ] LXQt + Labwc trial profile
-- [ ] LXQt + Xorg/Openbox compatibility session
-- [ ] Login, logout, session lock, basic file manager, terminal and network connection
-- [ ] Initial hardware-free memory, CPU and boot baselines
+- [x] Reproducible Debian 13 amd64 minimal installation in a virtual machine
+- [x] LXQt + Wayfire trial profile
+- [x] LXQt + Labwc trial profile
+- [x] LXQt + Xorg/Openbox compatibility session
+- [x] Login, logout, session lock, basic file manager, terminal and network connection
+- [x] Initial hardware-free memory, CPU and boot baselines
 
-**Exit gate:** All candidate sessions boot reliably; initial measured baselines and known blockers documented. **Do not choose compositor by aesthetics alone.**
+**Exit gate passed.** All three sessions passed boot and desktop checks, and their initial measurements and known blockers are documented. Stage 2 starts with LXQt on Xorg/Openbox as the hardware baseline. The default session decision follows the Stage 4 evaluation.
 
 ### Stage 2 — Hardware foundation and system services
 

@@ -1,6 +1,6 @@
 # Stage 1 · Minimal Debian desktop prototype
 
-**Status** — The Stage 1 VM exit checks passed. Xorg, Labwc, and Wayfire each passed the desktop checks, and their initial measurements and known issues are recorded below.
+**Status** — Complete. Xorg, Labwc, and Wayfire passed the Stage 1 VM exit checks. The initial measurements and known issues are recorded below.
 
 This is the first slice of [BASE-001](requirements.md). Establish an LXQt login on Xorg with Openbox, then use a comparable VM configuration for the Labwc and Wayfire trials.
 
@@ -99,7 +99,7 @@ ef04d0276850d70e4aaec0b55003628660e9631b26e35215a70ab3c8c707294a4b12731bc73c75a9
 
 The VM hit a virtual CPU fault during legacy BIOS startup. Switching its firmware to UEFI reached the boot manager and allowed installation from the verified ISO. The first graphical login opened KDE Plasma on Wayland. Selecting **LXQt** in the SDDM session menu provided the Xorg session for these tests.
 
-The run used an open QTerminal. Stopwatch boot-to-greeter time, virtual graphics settings and the full installed package inventory are pending. The physical-hardware memory acceptance test remains open.
+The run used an open QTerminal with VMware 3D acceleration disabled. The resolved package inventory was saved in the guest as `~/stage1-installed-packages.tsv` before taking the Xorg baseline snapshot. Stopwatch boot-to-greeter timing and the physical-hardware memory acceptance test remain open.
 
 ## 5. Trial LXQt with Labwc
 
@@ -254,3 +254,9 @@ These readings come from the same VM with VMware 3D acceleration enabled and QTe
 | LXQt on Wayland with Wayfire | 717 MiB | 99–100% | 0 MiB | 0 |
 
 Wayfire used 104 MiB less than Labwc and 8 MiB less than Xorg in these readings. Each session has one idle memory reading in this comparison. Boot timings describe system startup, and sign-in and stopwatch boot-to-greeter timings were not measured. The physical-hardware memory acceptance test and compositor selection remain open.
+
+## Stage 2 handoff
+
+Use LXQt on Xorg with Openbox as the provisional baseline for the [physical laptop checks](hardware-test-matrix.md). It was simpler to set up in the VM, passed the desktop checks, and used 725 MiB at idle. The 8 MiB gap to Wayfire is based on one reading per session. The shipped default session remains a [Stage 4 decision](adr/0002-desktop-sessions.md).
+
+Preserve the original Xorg baseline snapshot. A separate powered-off `Stage 1 - Complete` snapshot preserves the VM with both Wayland trials available for later comparison. The physical laptop checks can proceed independently.
