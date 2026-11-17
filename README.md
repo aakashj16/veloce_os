@@ -105,7 +105,7 @@ These targets are **requirements, not achieved benchmarks**. See [ADR 0003](docs
 | Provisional prototype baseline | **LXQt + Xorg/Openbox** | Favored by initial Stage 1 usability observations; retain because of compatibility and native Zoom window-sharing requirements; production default not certified |
 | Wayland evaluation candidate | **LXQt + Labwc** | Lean Wayland comparator; may become the preferred modern session after full acceptance tests |
 | Optional effects candidate | **LXQt + Wayfire** | Evaluate only if specific Enhanced effects justify its complexity, GPU usage and session reliability |
-| Legacy-app support on Wayland | **Xwayland** | Run compatible X11 applications where supported; does not imply native Zoom window-sharing parity |
+| Legacy-app support on Wayland | **Xwayland** | Run compatible X11 applications where supported; native Zoom sharing must be tested with the actual compositor and portal backend |
 | Custom interface | **Qt/QML** | Build isolated native-feeling widgets and UI rather than replacing every subsystem |
 | Graphics compatibility | **XWayland** | Support for X11 applications within a Wayland session where compatible |
 | Sound | **PipeWire + WirePlumber + ALSA** | Multimedia routing, microphones, jack, Bluetooth audio |
@@ -206,9 +206,9 @@ All capabilities listed here are part of the **baseline compatibility scope**. T
 
 ### Meeting screen sharing and the Xorg session
 
-As documented by Zoom, on Linux **Wayland sessions support entire-desktop or whiteboard sharing but not specific application-window sharing**; application-window sharing requires Xorg. Therefore:
+**Session support is version/compositor/portal dependent.** ARIA's stock Debian 13 + KDE Plasma/Wayland desktop successfully shared an individual application window and an entire display with native Zoom Workplace 7.2.5 (see [ARIA field report](docs/field-reports/aria-debian13-2026-11-17.md)). This does **not** establish compatibility on LXQt/Labwc or LXQt/Wayfire. Therefore:
 
-- Retain **Xorg/Openbox as the provisional prototype desktop**, including native Zoom application-window sharing.
+- Retain **Xorg/Openbox as the provisional Veloce prototype desktop** pending direct LXQt session validation; do not treat Xorg as universally necessary for Zoom window sharing.
 - Continue testing **Wayland/Labwc and Wayland/Wayfire** using XDG Desktop Portal + PipeWire integration; neither is yet certified as the production default.
 - Verify browser tab, one application window, and selected display sharing in Google Meet and Zoom Web with both Firefox ESR and Chrome. Test the same modes in the installed Chrome-based Meet web app. For native Zoom, test an individual window and a selected display on Xorg.
 - Compare both Wayland candidates with the actual portal backend. A Wayland session must pass the browser meeting matrix and the Notes privacy checks before it can become the default. See [meeting and Notes requirements](docs/requirements.md) for the session criteria.
@@ -315,7 +315,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 ## 7. Development roadmap and stage gates
 
-**Stage status:** Stage 0 is **COMPLETE** as of 2026-11-09. Stages 1–10 are **PLANNED**. Dates are deliberately not estimated until hardware access, contributors and prototype results are known. Do not mark steps complete without evidence.
+**Stage status (2026-11-17):** Stage 0 is **COMPLETE and merged** (#1). Stage 1 VM trials are **COMPLETE in documented testing, pending merge of draft PR #2**. Stage 2 is **IN PROGRESS** in draft PR #4; the [ARIA Debian 13 field report](docs/field-reports/aria-debian13-2026-11-17.md) records real HW-01 observations without certifying the Veloce LXQt baseline. Stages 3–10 have **not passed their exit gates**. Dates are not estimated. Do not mark steps complete without required evidence.
 
 ### Stage 0 — Requirements, naming and project setup
 
@@ -361,7 +361,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 **Exit gate:** All applicable baseline hardware checks pass on at least one reference laptop; unsupported hardware issues documented.
 
-**Stage 2 kickoff:** See the [HW-01 inventory review and test plan](docs/stage-2.md).
+**Stage 2 work in progress:** See the [HW-01 test plan](docs/stage-2.md) and [ARIA real-device field report](docs/field-reports/aria-debian13-2026-11-17.md). The latter is a reference workstation, not a Veloce image or the Stage 2 exit test.
 
 ### Stage 3 — Browsers, communication and developer applications
 
@@ -663,11 +663,13 @@ veloce_os/
 | Architecture | **Proposed — not validated** |
 | Brand clearance | **Open — resolve before branded ISO distribution** |
 | GitHub repository | **Public `veloce_os` repository created** |
-| Stage 0 | **Complete. Prototype scope and test strategy reviewed. HW-01 selected.** |
+| Stage 0 | **Complete and merged (#1). Prototype scope and test strategy reviewed. HW-01 selected.** |
+| Stage 1 | **VM tests complete; draft PR #2 remains open/unmerged** |
+| Stage 2 | **In progress, draft PR #4. ARIA physical hardware reference evidence captured; Veloce LXQt testing pending.** |
 | Original-code LICENSE | **Draft available; counsel review required before public binary release** |
 | Third-party attribution audit | **Not started** |
 | Prototype implementation | **Not started** |
-| Reference hardware testing | **Not started** |
+| Reference hardware testing | **ARIA Debian/KDE physical-laptop observations recorded; Veloce LXQt hardware acceptance still pending** |
 | Mode/theme benchmark results | **Not yet measured (Standard 1 GiB / Enhanced 2 GiB hard limits are targets)** |
 | Installer / live ISO | **Not built** |
 
