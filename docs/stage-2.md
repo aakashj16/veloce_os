@@ -1,10 +1,10 @@
 # Stage 2 · HW-01 hardware foundation
 
-**Status** — In progress. The Windows hardware inventory identifies the HP 15s-dr2007tx, BIOS Insyde F.68, UEFI mode and Secure Boot On. Native Linux checks are pending.
+**Status** — In progress. The Windows hardware inventory identifies the HP 15s-dr2007tx, BIOS Insyde F.68, UEFI mode and Secure Boot On. The owner subsequently installed **Debian 13 with KDE Plasma/Wayland directly on HW-01** and completed a personal workstation setup/acceptance check. See the [ARIA field report](field-reports/aria-debian13-2026-11-17.md). **Native Debian has been exercised, but the Veloce LXQt/Xorg/Openbox acceptance matrix remains pending.**
 
 Use Debian 13 amd64 and **LXQt on Xorg with Openbox** as the Stage 2 baseline. [Draft PR #2](https://github.com/aakashj16/veloce_os/pull/2) records the Stage 1 VMware results. The 725 MiB Xorg reading is a VM reference. Record live-session measurements separately from installed-system acceptance. The production session decision is tracked in [ADR 0002](adr/0002-desktop-sessions.md).
 
-## 1. Complete the Windows inventory
+## 1. Historical Windows inventory (completed before ARIA migration)
 
 The [hardware matrix](hardware-test-matrix.md#first-reference-laptop) records the Windows evidence for both GPUs, Intel AX201 Wi-Fi, Realtek Ethernet, Intel Bluetooth, Intel SST/Realtek audio, the webcam and both internal drives. The inventory is sufficient to start live testing. Capture exact device IDs during the live session if needed for troubleshooting.
 
@@ -25,7 +25,7 @@ The [hardware matrix](hardware-test-matrix.md#first-reference-laptop) records th
 
 3. Record the laptop panel resolution and scaling from **Settings → System → Display**, plus the external monitor port and available accessories for later testing.
 
-## 2. Choose a test route
+## 2. Choose a Veloce-specific test route (ARIA already runs Debian)
 
 | Route | Use in Stage 2 |
 |---|---|
@@ -35,7 +35,7 @@ The [hardware matrix](hardware-test-matrix.md#first-reference-laptop) records th
 
 Use the current [Debian 13 LXQt amd64 live ISO](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/) and [verify it using Debian's signed checksums](https://www.debian.org/CD/verify). Record the image filename and hash. Rehearse in VMware before writing removable media. The [Debian 13.7 LXQt live package list](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-13.7.0-amd64-lxqt.iso.packages) includes Xorg, Xfwm4 and PulseAudio. Use the stock image for the initial hardware check. Prepare and verify Openbox and PipeWire/WirePlumber in the VM before using an image for the Stage 2 session and audio-stack checks.
 
-Before booting external media, confirm the work device permits it and check that any BitLocker recovery process is available through the device owner or IT. Keep Secure Boot, BitLocker, permanent boot order and the Windows boot configuration as configured. Use the model's one-time boot menu (typically **Esc → F9** on HP). Choose the live session, leave the internal drives unmounted and skip the installer. If the media is blocked or a firmware change is required, stop and record the blocker. After the test, shut down, remove the media and confirm normal Windows startup.
+Before booting external media on an organization-managed Windows machine, confirm permission and BitLocker recovery access. HW-01 is personally owned and has since migrated to Debian 13. For any current production machine, protect its existing installation and data before experimenting with Veloce boot/recovery. Keep Secure Boot, BitLocker, permanent boot order and the Windows boot configuration as configured. Use the model's one-time boot menu (typically **Esc → F9** on HP). Choose the live session, leave the internal drives unmounted and skip the installer. If the media is blocked or a firmware change is required, stop and record the blocker. After the test, shut down, remove the media and confirm normal Windows startup.
 
 ## 3. Run the first native checks
 
