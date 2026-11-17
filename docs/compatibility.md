@@ -14,7 +14,7 @@ All scenarios are planned. Record the build, hardware, app version, session, exp
 
 ## Meeting tests
 
-Run a real test meeting with presenter permissions and a receiver on a second device. Record results on Xorg/Openbox, Labwc and Wayfire. Start with the exact Firefox ESR build Veloce ships. All cases start as **Not run**.
+Run a real test meeting with presenter permissions and a receiver on a second device. Record results on Xorg/Openbox, Labwc and Wayfire. Start with the exact Firefox ESR build Veloce ships. All **Veloce LXQt** cases start as **Not run**. A separate [ARIA KDE Plasma/Wayland field report](field-reports/aria-debian13-2026-11-17.md) records successful native Zoom application-window and entire-display sharing; do not transfer the result to other compositors.
 
 | Client | One browser tab | One application window | Selected display |
 |---|---|---|---|
@@ -24,7 +24,7 @@ Run a real test meeting with presenter permissions and a receiver on a second de
 | Installed Google Meet web app in Chrome | Required | Required | Required |
 | Zoom Web in Chrome | Required | Required | Required |
 | Native Zoom on Xorg | Use a web client for a tab picker | Required | Required |
-| Native Zoom on either Wayland candidate | Use a web client for a tab picker | Vendor documents Xorg for this workflow | Verify and record |
+| Native Zoom on either Wayland candidate | Use a web client for a tab picker | **Test, do not assume failure:** ARIA KDE/Wayland shared a selected window in Zoom 7.2.5; LXQt/Labwc and LXQt/Wayfire remain untested | Verify and record |
 
 Xorg is the first session to validate. A Wayland default must pass the same web-client requirements under MEET-003. Changing sessions can affect which windows are offered. Firefox ESR's tab picker and the meeting service also need to support the tab workflow.
 
