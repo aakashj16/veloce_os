@@ -67,7 +67,7 @@ awk '/^MemTotal:/ { total = $2 } /^MemAvailable:/ { printf "Memory used: %.1f Mi
 vmstat -w 1 6
 ```
 
-Record boot-to-greeter time separately with a stopwatch. Use the last five rows of `vmstat` for interval data. These are early VM measurements with a test terminal open. Use the [five-sample protocol](../README.md#what-the-1-gib-requirement-means) on reference hardware for the 1 GiB acceptance test.
+Record boot-to-greeter time separately with a stopwatch. Use the last five rows of `vmstat` for interval data. These are early VM measurements with a test terminal open. Use the [five-sample protocol](../README.md#what-the-performance-budgets-mean) on reference hardware for the 1 GiB acceptance test.
 
 ### First Xorg VM run
 
