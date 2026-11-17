@@ -17,9 +17,9 @@
 | Firmware version, UEFI and Secure Boot state | Insyde F.68 (2024-10-14), UEFI, Secure Boot On. |
 | Internal display, scaling and external monitor connection | 1920 × 1080 at 125% scaling in Windows. No pen or touch input reported. External-monitor connection pending. |
 | Webcam, wired headset and Bluetooth test devices | HP TrueVision HD Camera. Bluetooth earbuds, mouse, keyboard and speaker are listed in Windows. Wired headset availability pending. |
-| Baseline OS, test image and kernel | 64-bit Windows 11 work laptop. Windows build, Debian test image and kernel pending. |
+| Baseline OS, test image and kernel | Windows 11 was the original inventory baseline; **Debian 13 KDE Plasma/Wayland now runs on personally owned HW-01 (ARIA)**. Veloce image/commit and kernel benchmark metadata remain pending. |
 
-The inventory records Windows observations. Confirm the active drivers and unresolved device IDs from the Debian live session. UEFI HTTP Boot support remains unconfirmed for this SKU. In a Debian live session, `lspci -nnk` and `lsusb` help identify the chipsets and loaded drivers. See the [Stage 2 guide](stage-2.md) for the Windows inventory steps, test media and first native checks. Use a disposable target for installation and recovery tests.
+The inventory contains **historical Windows observations** plus [ARIA's Debian 13 field report](field-reports/aria-debian13-2026-11-17.md). Stock Debian/KDE hardware and productivity tests were owner-accepted, and native Zoom 7.2.5 individual-window and full-display sharing passed on Wayland. **These are not LXQt/Veloce certification results.** Confirm the active drivers and unresolved device IDs from the Debian live session. UEFI HTTP Boot support remains unconfirmed for this SKU. In a Debian live session, `lspci -nnk` and `lsusb` help identify the chipsets and loaded drivers. See the [Stage 2 guide](stage-2.md) for the Windows inventory steps, test media and first native checks. Use a disposable target for installation and recovery tests.
 
 ## Physical test checklist
 
