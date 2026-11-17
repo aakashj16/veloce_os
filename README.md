@@ -302,7 +302,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 ## 7. Development roadmap and stage gates
 
-**Stage status:** Stage 0 is **COMPLETE** as of 2026-11-09. Stage 1 is **IN PROGRESS**. Stages 2–10 are **PLANNED**. Dates are deliberately not estimated until hardware access, contributors and prototype results are known. Do not mark steps complete without evidence.
+**Stage status (2026-11-17):** Stage 0 is **COMPLETE**. Stage 1 VM experiments and documentation are **COMPLETE**, recorded in [PR #2](https://github.com/aakashj16/veloce_os/pull/2). Stage 2 hardware foundation is **IN PROGRESS** in [draft PR #4](https://github.com/aakashj16/veloce_os/pull/4). Stages 3–10 have not passed their exit gates. Do not mark Veloce-specific hardware and performance gates complete based on a separate stock-Debian workstation.
 
 ### Stage 0 — Requirements, naming and project setup
 
@@ -653,7 +653,7 @@ veloce_os/
 | Stage 0 | **Complete. Prototype scope and test strategy reviewed. HW-01 selected.** |
 | Original-code LICENSE | **Draft available; counsel review required before public binary release** |
 | Third-party attribution audit | **Not started** |
-| Prototype implementation | **Stage 1 in progress. VM setup guide and Xorg package manifest available. Session testing pending.** |
+| Prototype implementation | **Stage 1 VM session experiments complete (Xorg/Openbox, Labwc, Wayfire); guide, results and Xorg package manifest available. Veloce physical-hardware acceptance pending.** |
 | Reference hardware testing | **Not started** |
 | 1 GiB benchmark result | **Not yet measured** |
 | Installer / live ISO | **Not built** |
