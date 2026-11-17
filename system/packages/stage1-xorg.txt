@@ -1,0 +1,5 @@
+lxqt-core
+openbox
+sddm
+xserver-xorg
+xscreensaver

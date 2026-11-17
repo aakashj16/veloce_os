@@ -315,7 +315,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 ## 7. Development roadmap and stage gates
 
-**Stage status (2026-11-17):** Stage 0 is **COMPLETE and merged** (#1). Stage 1 VM trials are **COMPLETE in documented testing, pending merge of draft PR #2**. Stage 2 is **IN PROGRESS** in draft PR #4; the [ARIA Debian 13 field report](docs/field-reports/aria-debian13-2026-11-17.md) records real HW-01 observations without certifying the Veloce LXQt baseline. Stages 3–10 have **not passed their exit gates**. Dates are not estimated. Do not mark steps complete without required evidence.
+**Stage status (2026-11-17):** Stage 0 is **COMPLETE and merged** (#1). Stage 1 VM trials are **COMPLETE and merged via PR #2**. Stage 2 is **IN PROGRESS** in draft PR #4; the [ARIA Debian 13 field report](docs/field-reports/aria-debian13-2026-11-17.md) records real HW-01 observations without certifying the Veloce LXQt baseline. Stages 3–10 have **not passed their exit gates**. Dates are not estimated. Do not mark steps complete without required evidence.
 
 ### Stage 0 — Requirements, naming and project setup
 
@@ -336,15 +336,17 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 **Goal:** Demonstrate a minimal, usable graphical Debian desktop before building custom UI.
 
-**Deliverables**
-- [ ] Reproducible Debian 13 amd64 minimal installation in a virtual machine
-- [ ] LXQt + Wayfire trial profile
-- [ ] LXQt + Labwc trial profile
-- [ ] LXQt + Xorg/Openbox compatibility session
-- [ ] Login, logout, session lock, basic file manager, terminal and network connection
-- [ ] Initial hardware-free memory, CPU and boot baselines
+**Status** — Complete. The [Stage 1 guide](docs/stage-1.md) records the Debian 13 setup, results for all three sessions, and known VM issues.
 
-**Exit gate:** All candidate sessions boot reliably; initial measured baselines and known blockers documented. **Do not choose compositor by aesthetics alone.**
+**Deliverables**
+- [x] Reproducible Debian 13 amd64 minimal installation in a virtual machine
+- [x] LXQt + Wayfire trial profile
+- [x] LXQt + Labwc trial profile
+- [x] LXQt + Xorg/Openbox compatibility session
+- [x] Login, logout, session lock, basic file manager, terminal and network connection
+- [x] Initial hardware-free memory, CPU and boot baselines
+
+**Exit gate passed.** All three sessions passed boot and desktop checks, and their initial measurements and known blockers are documented. Stage 2 starts with LXQt on Xorg/Openbox as the hardware baseline. The default session decision follows the Stage 4 evaluation.
 
 ### Stage 2 — Hardware foundation and system services
 
@@ -664,7 +666,7 @@ veloce_os/
 | Brand clearance | **Open — resolve before branded ISO distribution** |
 | GitHub repository | **Public `veloce_os` repository created** |
 | Stage 0 | **Complete and merged (#1). Prototype scope and test strategy reviewed. HW-01 selected.** |
-| Stage 1 | **VM tests complete; draft PR #2 remains open/unmerged** |
+| Stage 1 | **VM tests complete; PR #2 merged into `main`** |
 | Stage 2 | **In progress, draft PR #4. ARIA physical hardware reference evidence captured; Veloce LXQt testing pending.** |
 | Original-code LICENSE | **Draft available; counsel review required before public binary release** |
 | Third-party attribution audit | **Not started** |
