@@ -19,19 +19,19 @@
 | Webcam, wired headset and Bluetooth test devices | HP TrueVision HD Camera. Bluetooth earbuds, mouse, keyboard and speaker are listed in Windows. Wired headset availability pending. |
 | Baseline OS, test image and kernel | Windows 11 was the original inventory baseline; **Debian 13 KDE Plasma/Wayland now runs on personally owned HW-01 (ARIA)**. Veloce image/commit and kernel benchmark metadata remain pending. |
 
-The inventory contains **historical Windows observations** plus [ARIA's Debian 13 field report](field-reports/aria-debian13-2026-11-17.md). Stock Debian/KDE hardware and productivity tests were owner-accepted, and native Zoom 7.2.5 individual-window and full-display sharing passed on Wayland. **These are not LXQt/Veloce certification results.** Confirm the active drivers and unresolved device IDs from the Debian live session. UEFI HTTP Boot support remains unconfirmed for this SKU. In a Debian live session, `lspci -nnk` and `lsusb` help identify the chipsets and loaded drivers. See the [Stage 2 guide](stage-2.md) for the Windows inventory steps, test media and first native checks. Use a disposable target for installation and recovery tests.
+The inventory combines historical Windows observations with [ARIA’s Debian 13 field report](field-reports/aria-debian13-2026-11-17.md). The owner reported that all applicable physical checks performed passed, with graphics validation pending. Individual driver logs and release acceptance evidence remain to be collected where needed.
 
 ## Physical test checklist
 
 | Area | Checks | HW-01 |
 |---|---|---|
-| Graphics and display | Driver loads, native resolution, scaling, HDMI/USB-C display hotplug, per-monitor layout | Not run |
-| Network and Bluetooth | Firmware and driver load, Wi-Fi connect/reconnect, Ethernet or adapter, headset pairing and profile switching | Not run |
-| Audio and video | Speakers, internal and USB mic/camera, wired jack detection, headset routing and camera privacy controls | Not run |
-| Power and input | Brightness and volume keys, touchpad, battery, lid close, repeated sleep/wake and thermal behavior | Not run |
-| Storage and peripherals | USB, safe eject, NTFS/exFAT/ext4 access, printer and network shares as applicable | Not run |
-| Boot and recovery | Live UEFI boot, Secure Boot behavior, encrypted install, update/reboot and restore on disposable data | Not run |
-| Meetings | Run MEET-001, MEET-002 and NOTES-001 with a second device and an external display. Record browser and session results. | Not run |
+| Graphics and display | Intel UHD, NVIDIA MX130, hybrid graphics and external-monitor output | Pending |
+| Network and Bluetooth | Firmware and driver load, Wi-Fi connect/reconnect, Ethernet or adapter, headset pairing and profile switching | Pass (owner-reported for checks performed) |
+| Audio and video | Speakers, internal and USB mic/camera, wired jack detection, headset routing and camera privacy controls | Pass (owner-reported for checks performed) |
+| Power and input | Brightness and volume keys, touchpad, battery, lid close, repeated sleep/wake and thermal behavior | Pass (owner-reported for checks performed) |
+| Storage and peripherals | USB, safe eject, NTFS/exFAT/ext4 access, printer and network shares as applicable | Pass (owner-reported for checks performed) |
+| Boot and recovery | Live UEFI boot, Secure Boot behavior, encrypted install, update/reboot and restore on disposable data | Release recovery pending |
+| Meetings | Run MEET-001, MEET-002 and NOTES-001 with a second device and an external display. Record browser and session results. | Native Zoom window and display sharing passed on ARIA. Browser, multi-monitor and Notes checks remain open. |
 | Performance | Reboot and collect all five idle samples per session with baseline services enabled | Not run |
 
 For each run record the date, reference ID, commit/image hash, kernel, session, versions, expected result, observed result and evidence. Use **Pass**, **Fail**, **Blocked**, **Not applicable** or **Not run**. For blocked or inapplicable checks, record the reason. Before publishing evidence, remove serial numbers, usernames, network identifiers and credentials.

@@ -5,7 +5,7 @@
 > **Status:** Planning / architecture specification (v0.3)  
 > **Document date:** 2026-11-10  
 > **Primary architecture:** x86-64 (`amd64`) laptops and desktops  
-> **Foundation:** Debian 13 (Trixie), Linux kernel, LXQt, Qt/QML  
+> **Foundation:** Debian 13 (Trixie), Linux kernel, KDE Plasma on Wayland, Qt/QML<br>
 > **Performance modes:** **Standard** — ≤ 1 GiB (1,024 MiB) idle; **Enhanced** — prefer ≤ 1 GiB, hard ceiling **2 GiB (2,048 MiB)** idle, with normal baseline services operational  
 > **Independent visual themes:** **Graphite** (matte dark) and **Pearl** (clean light), available in both modes  
 > **Repository:** `veloce_os` (public GitHub repository, source-available)  
@@ -41,7 +41,7 @@ A milestone is complete only when its requirements are **tested and documented**
 | PERF-003 | Low idle CPU / battery impact | Capture CPU, wakeups, GPU use, thermals, power draw and battery runtime; establish baselines against installed Windows and/or stock Debian |
 | CORE-001 | Complete laptop and desktop functionality | All applicable hardware tests in Section 5 pass on supported devices |
 | APPS-001 | Real productivity | Firefox, Chrome, Edge and Brave compatibility; VLC; browser-only Telegram and WhatsApp; Zoom, VS Code, Python, SQL, Google Workspace, Microsoft 365 web, and optional offline office validated |
-| MEET-001–003 | Meeting screen sharing | Test native Zoom on Xorg and Meet/Zoom Web by session, browser and capture source using the [meeting acceptance matrix](docs/compatibility.md#meeting-tests) |
+| MEET-001–003 | Meeting screen sharing | Test native Zoom on KDE Plasma/Wayland and Meet/Zoom Web by session, browser and capture source using the [meeting acceptance matrix](docs/compatibility.md#meeting-tests) |
 | NOTES-001 | Private presenter notes | Verify the pin toggle and [capture exclusion](docs/compatibility.md#notes-privacy-tests), including on a shared display that locally shows Notes |
 | SEC-001 | Secure and maintainable | Encryption, updates, firewall, permissions, backups and recovery tested |
 | UX-001 | Functional original Veloce UI | Dock, notifications, status hub, system controls and accessibility work without breaking core workflows |
@@ -74,8 +74,7 @@ These targets are **requirements, not achieved benchmarks**. See [ADR 0003](docs
 │ Custom Qt/QML components, isolated and failure-tolerant      │
 ├───────────────────────────────────────────────────────────────┤
 │ DESKTOP / COMPOSITOR                                         │
-│ LXQt + Xorg/Openbox [provisional prototype baseline]        │
-│ Wayland + Labwc / Wayfire [alternate sessions under review]  │
+│ KDE Plasma + KWin / Wayland                               │
 │ Display manager, lock screen, session and window management  │
 ├───────────────────────────────────────────────────────────────┤
 │ APPLICATIONS                                                 │
@@ -101,10 +100,7 @@ These targets are **requirements, not achieved benchmarks**. See [ADR 0003](docs
 |---|---|---|
 | Base | **Debian 13 Stable (Trixie)** | Security maintenance, predictable APT repository, broad hardware/software ecosystem; pin suite/version for builds |
 | Architecture | **amd64 first** | Highest priority for common laptops, Zoom/VS Code and requested desktop apps; ARM64 is a later evaluation |
-| Desktop | **LXQt** | Modular, Qt-based, adaptable, with Wayland compositor options |
-| Provisional prototype baseline | **LXQt + Xorg/Openbox** | Favored by initial Stage 1 usability observations; retain because of compatibility and native Zoom window-sharing requirements; production default not certified |
-| Wayland evaluation candidate | **LXQt + Labwc** | Lean Wayland comparator; may become the preferred modern session after full acceptance tests |
-| Optional effects candidate | **LXQt + Wayfire** | Evaluate only if specific Enhanced effects justify its complexity, GPU usage and session reliability |
+| Desktop baseline | **KDE Plasma on Wayland (KWin)** | Adopted after the HW-01 physical checks and native Zoom screen-sharing success on ARIA |
 | Legacy-app support on Wayland | **Xwayland** | Run compatible X11 applications where supported; native Zoom sharing must be tested with the actual compositor and portal backend |
 | Custom interface | **Qt/QML** | Build isolated native-feeling widgets and UI rather than replacing every subsystem |
 | Graphics compatibility | **XWayland** | Support for X11 applications within a Wayland session where compatible |
@@ -114,7 +110,7 @@ These targets are **requirements, not achieved benchmarks**. See [ADR 0003](docs
 | Image creation | **Debian `live-build`** | Configure repeatable ISO builds |
 | Installer | **Calamares**, subject to integration tests | Graphical installation, encryption/partition and bootloader scenarios |
 
-**Decision gate:** Xorg/Openbox is the **provisional prototype baseline**, not an irreversible release decision. Compare Xorg, Labwc and Wayfire with the same real-device benchmarks, power/graphics checks, meeting and Notes privacy tests before selecting any production default. Standard and Enhanced should share one dependable base where feasible; Enhanced must not require Wayfire or blur.
+**Release validation:** Benchmark KDE Plasma on Wayland on reference hardware and verify graphics, meeting workflows and Notes capture protection before release.
 
 ### Independent performance modes and visual themes
 
@@ -204,13 +200,12 @@ All capabilities listed here are part of the **baseline compatibility scope**. T
 - Google Drive **for desktop** is not officially offered on Linux; use the website or a separately tested third-party mount solution.
 - Benchmark disk consumption separately for the minimal base and each installed browser/office profile. Optional applications must not add always-running daemons unless the user enables them.
 
-### Meeting screen sharing and the Xorg session
+### Meeting screen sharing on KDE Plasma and Wayland
 
-**Session support is version/compositor/portal dependent.** ARIA's stock Debian 13 + KDE Plasma/Wayland desktop successfully shared an individual application window and an entire display with native Zoom Workplace 7.2.5 (see [ARIA field report](docs/field-reports/aria-debian13-2026-11-17.md)). This does **not** establish compatibility on LXQt/Labwc or LXQt/Wayfire. Therefore:
+**Session support is version/compositor/portal dependent.** ARIA's stock Debian 13 + KDE Plasma/Wayland desktop successfully shared an individual application window and an entire display with native Zoom Workplace 7.2.5 (see [ARIA field report](docs/field-reports/aria-debian13-2026-11-17.md)).
 
-- Retain **Xorg/Openbox as the provisional Veloce prototype desktop** pending direct LXQt session validation; do not treat Xorg as universally necessary for Zoom window sharing.
-- Continue testing **Wayland/Labwc and Wayland/Wayfire** using XDG Desktop Portal + PipeWire integration; neither is yet certified as the production default.
-- Verify browser tab, one application window, and selected display sharing in Google Meet and Zoom Web with both Firefox ESR and Chrome. Test the same modes in the installed Chrome-based Meet web app. For native Zoom, test an individual window and a selected display on Xorg.
+- Validate the shipped KDE Plasma session with the KDE portal and PipeWire.
+- Verify browser tab, one application window, and selected display sharing in Google Meet and Zoom Web with both Firefox ESR and Chrome. Test the same modes in the installed Chrome-based Meet web app. For native Zoom, test an individual window and a selected display on KDE Plasma/Wayland.
 - Compare both Wayland candidates with the actual portal backend. A Wayland session must pass the browser meeting matrix and the Notes privacy checks before it can become the default. See [meeting and Notes requirements](docs/requirements.md) for the session criteria.
 - Certify real meetings with microphones, webcams, Bluetooth headsets, multiple monitors, share audio, join/leave and suspend/resume.
 - Do not describe Zoom as “fully working” until the required scenarios pass.
@@ -315,7 +310,7 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 ## 7. Development roadmap and stage gates
 
-**Stage status (2026-11-17):** Stage 0 is **COMPLETE and merged** (#1). Stage 1 VM trials are **COMPLETE and merged via PR #2**. Stage 2 is **IN PROGRESS** in draft PR #4; the [ARIA Debian 13 field report](docs/field-reports/aria-debian13-2026-11-17.md) records real HW-01 observations without certifying the Veloce LXQt baseline. Stages 3–10 have **not passed their exit gates**. Dates are not estimated. Do not mark steps complete without required evidence.
+**Stage status (2026-11-18):** Stage 0 and Stage 1 are **complete**. Stage 2 is **complete on HW-01 with graphics validation carried forward**. KDE Plasma on Wayland is the Veloce baseline. Stages 3–10 remain open.
 
 ### Stage 0 — Requirements, naming and project setup
 
@@ -346,24 +341,15 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 - [x] Login, logout, session lock, basic file manager, terminal and network connection
 - [x] Initial hardware-free memory, CPU and boot baselines
 
-**Exit gate passed.** All three sessions passed boot and desktop checks, and their initial measurements and known blockers are documented. Stage 2 starts with LXQt on Xorg/Openbox as the hardware baseline. The default session decision follows the Stage 4 evaluation.
+**Exit gate passed.** All three sessions passed boot and desktop checks, and their initial measurements and known blockers are documented. The Stage 1 LXQt results remain the record of those VM trials.
 
 ### Stage 2 — Hardware foundation and system services
 
 **Goal:** Make the desktop useful and dependable on physical laptops.
 
-**Deliverables**
-- [ ] NetworkManager/BlueZ configuration; Wi-Fi, Ethernet and Bluetooth testing
-- [ ] PipeWire/WirePlumber/ALSA for speakers, headphone jack, Bluetooth audio and mic
-- [ ] Touchpad, keyboard/function keys, brightness, volume and monitor support
-- [ ] Suspend, lid-close, resume, battery telemetry, thermal and power profiles
-- [ ] USB, storage, NTFS/exFAT, network shares and device permissions
-- [ ] Notification service, screen locker, login/display manager and basic accessibility
-- [ ] Device-specific driver/firmware gap list and tested recovery path
+**Closeout:** The owner reported that the applicable physical checks performed on HW-01 passed without errors. KDE Plasma on Wayland ran on the HP and native Zoom passed individual-window and entire-display sharing. Intel UHD/NVIDIA MX130 driver and hybrid-graphics validation remains open, including external-display testing when a monitor is available.
 
-**Exit gate:** All applicable baseline hardware checks pass on at least one reference laptop; unsupported hardware issues documented.
-
-**Stage 2 work in progress:** See the [HW-01 test plan](docs/stage-2.md) and [ARIA real-device field report](docs/field-reports/aria-debian13-2026-11-17.md). The latter is a reference workstation, not a Veloce image or the Stage 2 exit test.
+The [Stage 2 closeout](docs/stage-2.md) records the accepted scope. Reproducible image and service configuration, formal benchmarks, and release recovery and security validation remain follow-up work.
 
 ### Stage 3 — Browsers, communication and developer applications
 
@@ -388,10 +374,10 @@ Future `scripts/benchmarks/` tooling should automate measurements into CSV/JSON 
 
 **Deliverables**
 - [ ] Standardized idle benchmark harness and clean-run procedure
-- [ ] Five-sample measurements on Wayfire, Labwc and X11 baseline sessions
+- [ ] Five-sample measurements on the KDE Plasma/Wayland baseline
 - [ ] CPU, GPU, frame time, battery, suspend and multi-monitor comparisons, prioritizing matte and low-effects rendering
 - [ ] Services/startup review; remove unnecessary daemons safely
-- [ ] Architecture decision: primary compositor and custom-component constraints, including capture protection for Notes
+- [ ] Validate KWin constraints for custom components, including capture protection for Notes
 - [ ] Performance regression checks prepared for subsequent builds
 
 **Exit gate:** The Standard baseline meets ≤ 1,024 MiB idle on reference hardware (or Stage 4 records explicit failure and an optimization plan). Establish Enhanced's ≤ 2,048 MiB budget and test plan; Stage 5 must verify the complete Enhanced UI. No unsupported success claims.
@@ -492,12 +478,12 @@ This is the **first build we should implement** — a functional lightweight bas
 
 - [ ] M1-01: Create repository structure and capture hardware inventory.
 - [ ] M1-02: Install Debian 13 minimally in a VM or spare/test drive.
-- [ ] M1-03: Build LXQt + Wayfire and LXQt + Labwc candidate sessions.
-- [ ] M1-04: Configure an Xorg session with reliable login/logout.
+- [ ] M1-03: Configure KDE Plasma on Wayland with the KDE desktop portal.
+- [ ] M1-04: Verify reliable login, logout and locking in the KDE Plasma session.
 - [ ] M1-05: Configure Wi-Fi/networking, Bluetooth, PipeWire audio, notification and power services.
-- [ ] M1-06: Run repeatable idle RAM/CPU benchmarks on all sessions.
+- [ ] M1-06: Run repeatable idle RAM/CPU benchmarks on the KDE Plasma baseline.
 - [ ] M1-07: Validate Firefox, optional Chrome/Edge/Brave, VLC, and Telegram/WhatsApp Web in browsers.
-- [ ] M1-08: Run the [meeting matrix](docs/compatibility.md#meeting-tests) for native Zoom and web meeting clients. Verify window and display sharing in native Zoom on Xorg. Test Firefox ESR and Chrome for tab, window and display sharing in the web clients. Record Wayland results per candidate and prototype the [protected Notes surface](docs/adr/0002-desktop-sessions.md#protected-notes-surface) using dummy content.
+- [ ] M1-08: Run the [meeting matrix](docs/compatibility.md#meeting-tests) for native Zoom and web meeting clients. Verify window and display sharing in native Zoom on KDE Plasma/Wayland. Test Firefox ESR and Chrome for tab, window and display sharing in the web clients. Record results on the shipped session and prototype the [protected Notes surface](docs/adr/0002-desktop-sessions.md#protected-notes-surface) using dummy content.
 - [ ] M1-09: Test Google Workspace, Microsoft 365 web, optional LibreOffice, VS Code, Python venv and a SQL client.
 - [ ] M1-10: Record failures, choose architecture and define a fix backlog.
 
@@ -590,7 +576,7 @@ veloce_os/
 |---|---|---|
 | Veloce name may conflict with an existing software product | Branding/public distribution risk | Maintain as codename until reviewed; rename before public release if needed |
 | Enhanced exceeds 2 GiB idle or hurts GPU/battery | Violates Enhanced release gate | Profile individual effects; prioritize matte rendering; fall back to restrained animations; verify all four combinations on real hardware |
-| Zoom functionality differs across Wayland/Xorg | Meeting workflow failure | Ship documented X11 compatibility session; real meeting test gate |
+| Zoom functionality differs across Wayland/Xorg | Meeting workflow failure | Run the meeting matrix on the shipped KDE Plasma session |
 | Telegram/WhatsApp are browser-only in v1 | Browser-dependent calls and notifications | Test current web services; optional browser shortcuts; revisit native clients after v1 |
 | Vendor-specific laptop drivers/firmware | Wi-Fi/audio/sleep failure | Maintain hardware compatibility list and test real devices before making claims |
 | External packages introduce update/security issues | Reliability/security impact | Use verified repositories and explicit upgrade testing |
@@ -667,11 +653,11 @@ veloce_os/
 | GitHub repository | **Public `veloce_os` repository created** |
 | Stage 0 | **Complete and merged (#1). Prototype scope and test strategy reviewed. HW-01 selected.** |
 | Stage 1 | **VM tests complete; PR #2 merged into `main`** |
-| Stage 2 | **In progress, draft PR #4. ARIA physical hardware reference evidence captured; Veloce LXQt testing pending.** |
+| Stage 2 | **Complete on HW-01 with graphics validation pending. KDE Plasma on Wayland adopted as the baseline.** |
 | Original-code LICENSE | **Draft available; counsel review required before public binary release** |
 | Third-party attribution audit | **Not started** |
 | Prototype implementation | **Not started** |
-| Reference hardware testing | **ARIA Debian/KDE physical-laptop observations recorded; Veloce LXQt hardware acceptance still pending** |
+| Reference hardware testing | **Owner-reported physical checks passed on HW-01. GPU and external-display validation remain open.** |
 | Mode/theme benchmark results | **Not yet measured (Standard 1 GiB / Enhanced 2 GiB hard limits are targets)** |
 | Installer / live ISO | **Not built** |
 
