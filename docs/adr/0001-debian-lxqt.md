@@ -1,6 +1,6 @@
 # ADR 0001 · Debian base and LXQt desktop
 
-**Status** — Accepted for the Stage 1 prototype
+**Status** — Accepted for the Stage 1 prototype. See [ADR 0002](0002-desktop-sessions.md) for the current desktop baseline.
 
 Use Debian 13 (Trixie) on amd64 as the first prototype base, with LXQt and Debian-packaged components where practical. Record the installer image checksum, configured package sources, installed versions, and setup steps so someone can recreate and compare a build. Keep security updates enabled and record version changes when rerunning a benchmark.
 

@@ -11,7 +11,7 @@ The original roadmap proposed a macOS-inspired glass interface with blur as a ce
 1. **One OS, two independent performance modes.** **Standard** is the efficient baseline, with a hard idle system-memory ceiling of **1,024 MiB (1 GiB)** and a non-blocking stretch goal of 800 MiB. **Enhanced** adds optional subtle effects, with a preferred optimization target ≤ 1,024 MiB and an absolute idle ceiling of **2,048 MiB (2 GiB)**. Both deliver the same core capabilities. Enhanced is not a separate installer or distribution.
 2. **Two independent visual themes.** **Graphite** is a matte charcoal/dark theme; **Pearl** is a light neutral theme. Both appear in either Standard or Enhanced. Theme selection must not implicitly change the performance mode.
 3. **Original matte-first design.** Achieve visual polish through typography, spacing, original icons, precise color and contrast, layering, subtle borders, rounded surfaces where supported, dock and status hub. Avoid live blur as a dependency, pervasive translucency, and proprietary Apple designs or assets. Keep effects optional, short and reducible; respect accessibility settings.
-4. **Provisional display baseline.** Use LXQt + Xorg/Openbox as the first implementation candidate based on Stage 1 observations, especially session dependability and native Zoom application-window sharing. Keep LXQt + Labwc and Wayfire as test candidates; Wayfire is not required by Enhanced. The production default remains subject to Stage 4/8 evidence and the meeting/privacy acceptance gates.
+4. **Desktop baseline.** Use KDE Plasma on Wayland for both modes. Validate performance and capture behavior on the reference hardware. See [ADR 0002](0002-desktop-sessions.md).
 5. **Hardware planning, not certification.** Standard should remain practical on 4 GiB installed-memory devices where supported; Enhanced should primarily target 8 GiB+ machines. Idle system-memory consumption must not be confused with installed RAM. CPU/GPU, frame times, thermal behavior and battery matter alongside memory. Only real-device test results establish compatibility.
 6. **No silent downgrades or misleading claims.** Unsupported effects should degrade safely; document fallback behavior. Do not disable critical services to meet budgets. All four mode × theme combinations must be validated under the same reproducible five-sample measurement method in the README.
 
@@ -27,7 +27,7 @@ The original roadmap proposed a macOS-inspired glass interface with blur as a ce
 - Update requirements, README, Stage 4 and 5 gates, risk register and future mockups to the new terms.
 - Replace references to “Veloce Glass/Light” as shipping profiles with Standard/Enhanced; Graphite/Pearl are theme names.
 - Retain existing functional requirements, including screen sharing, protected Notes **as an unverified v1 gate**, developer apps, and security.
-- Do not retroactively mark untested milestones complete. Stage 2 can begin once the documentation revision is reviewed and accepted; physical laptop acceptance still requires hardware evidence.
+- Record the hardware checks and the graphics exception in the [Stage 2 closeout](../stage-2.md).
 
 ## Measurement and release gates
 

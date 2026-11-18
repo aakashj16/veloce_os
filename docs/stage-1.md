@@ -257,6 +257,6 @@ Wayfire used 104 MiB less than Labwc and 8 MiB less than Xorg in these readings.
 
 ## Stage 2 handoff
 
-Use LXQt on Xorg with Openbox as the provisional baseline for the [physical laptop checks](hardware-test-matrix.md). It was simpler to set up in the VM, passed the desktop checks, and used 725 MiB at idle. The 8 MiB gap to Wayfire is based on one reading per session. The shipped default session remains a [Stage 4 decision](adr/0002-desktop-sessions.md).
+The Stage 1 handoff originally proposed LXQt on Xorg/Openbox for hardware testing. The 725 MiB VM reading remains a historical reference. [Stage 2](stage-2.md) adopted KDE Plasma on Wayland after the physical checks and Zoom tests on HW-01.
 
 Preserve the original Xorg baseline snapshot. A separate powered-off `Stage 1 - Complete` snapshot preserves the VM with both Wayland trials available for later comparison. The physical laptop checks can proceed independently.

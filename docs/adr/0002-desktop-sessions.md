@@ -1,12 +1,18 @@
-# ADR 0002 · Wayland candidates and Xorg session
+# ADR 0002 · KDE Plasma on Wayland
 
-**Status** — Evaluation plan accepted. Xorg/Openbox favored as the provisional Stage 1 baseline (2026-11-10); final production default pending Stage 4/8 evidence.
+**Status** — Accepted on 2026-11-18.
 
-Initial Stage 1 functional testing found LXQt + Xorg/Openbox simpler and more dependable than the evaluated Labwc and Wayfire sessions. That observation is not a certification of performance or universal stability. Use Xorg/Openbox as the provisional desktop baseline. Continue comparing LXQt with Labwc and Wayfire using the same Debian base, services, hardware and measurement protocol. Record the compositor, portal backend, PipeWire, browser and native Zoom versions. Compare memory, CPU, GPU effects, battery, suspend/resume, scaling, accessibility, crash recovery and meeting capture before choosing the default.
+Build Veloce on Debian 13 with KDE Plasma and KWin on Wayland. Native Zoom Workplace 7.2.5 passed individual application-window and entire-display sharing on ARIA, the physical HW-01 reference laptop. The owner subsequently confirmed the physical checks passed with graphics validation still open. See the [ARIA field report](../field-reports/aria-debian13-2026-11-17.md).
 
-Provide LXQt on Xorg with Openbox as a selectable login session for native Zoom window sharing, testing it as a complete desktop session. Standard and Enhanced are **performance modes**, not compositors or separate display stacks. Enhanced does not require Wayfire; design is matte-first with optional refined effects. See [ADR 0003](0003-visual-identity-and-performance-modes.md). XWayland is available for compatible X11 apps within the Wayland candidates.
+The [Stage 1 VM trials](../stage-1.md) preserve the LXQt/Openbox, Labwc and Wayfire results. Validate Veloce's KDE configuration with the [meeting matrix](../compatibility.md#meeting-tests) and run the reference-hardware benchmark with normal services enabled. Standard and Enhanced both use the KDE baseline.
 
-The stock Debian 13 wlr screen cast backend selects a display output. A proposed Wayland default must pass the required Firefox ESR and Chrome meeting tests and the Notes privacy checks. Xorg is the provisional prototype default while those checks are open; no change to the protected Notes security gate is implied. Record browser or client limitations separately and verify them on Xorg before attributing them to Wayland. Verify native Zoom against the vendor's documented session capabilities.
+# ADR 0002 · KDE Plasma on Wayland
+
+**Status** — Accepted on 2026-11-18.
+
+Build Veloce on Debian 13 with KDE Plasma and KWin on Wayland. Native Zoom Workplace 7.2.5 passed individual application-window and entire-display sharing on ARIA, the physical HW-01 reference laptop. The owner subsequently confirmed the physical checks passed with graphics validation still open. See the [ARIA field report](../field-reports/aria-debian13-2026-11-17.md).
+
+The [Stage 1 VM trials](../stage-1.md) preserve the LXQt/Openbox, Labwc and Wayfire results. Validate Veloce's KDE configuration with the [meeting matrix](../compatibility.md#meeting-tests) and run the reference-hardware benchmark with normal services enabled. Standard and Enhanced both use the KDE baseline.
 
 ## Protected Notes surface
 

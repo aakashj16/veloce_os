@@ -14,7 +14,7 @@ All scenarios are planned. Record the build, hardware, app version, session, exp
 
 ## Meeting tests
 
-Run a real test meeting with presenter permissions and a receiver on a second device. Record results on Xorg/Openbox, Labwc and Wayfire. Start with the exact Firefox ESR build Veloce ships. All cases start as **Not run**.
+Run a real test meeting with presenter permissions and a receiver on a second device. Test the shipped KDE Plasma/Wayland session and record the browser, Zoom, portal and PipeWire versions. The [ARIA field report](field-reports/aria-debian13-2026-11-17.md) records successful native Zoom window and display sharing on stock Debian/KDE.
 
 | Client | One browser tab | One application window | Selected display |
 |---|---|---|---|
@@ -23,10 +23,9 @@ Run a real test meeting with presenter permissions and a receiver on a second de
 | Google Meet in Chrome | Required | Required | Required |
 | Installed Google Meet web app in Chrome | Required | Required | Required |
 | Zoom Web in Chrome | Required | Required | Required |
-| Native Zoom on Xorg | Use a web client for a tab picker | Required | Required |
-| Native Zoom on either Wayland candidate | Use a web client for a tab picker | Vendor documents Xorg for this workflow | Verify and record |
+| Native Zoom on KDE Plasma/Wayland | Use a web client for a tab picker | Required | Required |
 
-Xorg is the first session to validate. A Wayland default must pass the same web-client requirements under MEET-003. Changing sessions can affect which windows are offered. Firefox ESR's tab picker and the meeting service also need to support the tab workflow.
+Verify the web-client workflows under MEET-003. Firefox ESR and the meeting service both need to support the tab workflow.
 
 1. **Browser tab** — Share a demo BigQuery tab. Switch locally to a second tab and have the receiver confirm that the original selected tab is the only content visible. Run this test independently in Firefox ESR and Chrome. Moving the demo into its own window is a window-sharing workaround.
 2. **Application window** — Open two VS Code windows with different dummy content. Share one and have the receiver confirm that the other window stays private. Verify that switching editor tabs inside the selected window follows the displayed window.
