@@ -11,3 +11,7 @@ Veloce now uses **Debian 13 with KDE Plasma on Wayland** as its desktop baseline
 - Validate Intel UHD and NVIDIA MX130 drivers and hybrid graphics. Verify external-display output when a monitor is available.
 - Capture the reproducible KDE image and baseline service configuration. Run the five-sample idle benchmark on HW-01 with normal services running. ARIA's reported idle usage was below 2 GiB RAM and 1% CPU. Stage 1's 725 MiB LXQt reading came from a VM. A matched benchmark is needed to establish relative memory usage and check the 1 GiB Standard target.
 - Verify shipped browser and Zoom workflows, protected Notes capture, and release installation, encryption, backup and recovery in their roadmap stages. Use disposable data and a disposable target for recovery tests.
+
+## Post-closeout HW-01 graphics incident (2026-11-23–24)
+
+The owner encountered a Debian boot hang accompanied by `nouveau` MMIO and DMAR faults on the MX130. The Intel `i915` desktop booted after `modprobe.blacklist=nouveau` was temporarily supplied in GRUB, and then after it was configured persistently and `update-grub` completed. The separate HP 90D warning and cleaning are recorded without assuming causality. See [the incident and recovery procedure](troubleshooting.md) and [ARIA field evidence](field-reports/aria-debian13-2026-11-17.md). **Stage 2 remains closed**, while full NVIDIA/hybrid graphics and release boot validation remain open.
