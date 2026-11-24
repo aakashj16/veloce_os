@@ -19,13 +19,13 @@
 | Webcam, wired headset and Bluetooth test devices | HP TrueVision HD Camera. Bluetooth earbuds, mouse, keyboard and speaker are listed in Windows. Wired headset availability pending. |
 | Baseline OS, test image and kernel | Windows 11 was the original inventory baseline; **Debian 13 KDE Plasma/Wayland now runs on personally owned HW-01 (ARIA)**. Veloce image/commit and kernel benchmark metadata remain pending. |
 
-The inventory combines historical Windows observations with [ARIA’s Debian 13 field report](field-reports/aria-debian13-2026-11-17.md). The owner reported that all applicable physical checks performed passed, with graphics validation pending. Individual driver logs and release acceptance evidence remain to be collected where needed.
+The inventory combines historical Windows observations with [ARIA’s Debian 13 field report](field-reports/aria-debian13-2026-11-17.md). The owner reported that all applicable physical checks performed passed at Stage 2 closeout, with graphics validation pending. **November 23–24 follow-up:** the MX130 `nouveau` boot hang now has a [documented Intel-only recovery workaround](troubleshooting.md); this is not a graphics validation pass. Individual driver logs and release acceptance evidence remain to be collected where needed.
 
 ## Physical test checklist
 
 | Area | Checks | HW-01 |
 |---|---|---|
-| Graphics and display | Intel UHD, NVIDIA MX130, hybrid graphics and external-monitor output | Pending |
+| Graphics and display | Intel UHD, NVIDIA MX130, hybrid graphics and external-monitor output | **Partial:** Intel `i915` works; MX130 `nouveau` boot hangs on 6.12.118; [documented GRUB blacklist workaround](troubleshooting.md) works. NVIDIA/hybrid and external monitor remain unvalidated. |
 | Network and Bluetooth | Firmware and driver load, Wi-Fi connect/reconnect, Ethernet or adapter, headset pairing and profile switching | Pass (owner-reported for checks performed) |
 | Audio and video | Speakers, internal and USB mic/camera, wired jack detection, headset routing and camera privacy controls | Pass (owner-reported for checks performed) |
 | Power and input | Brightness and volume keys, touchpad, battery, lid close, repeated sleep/wake and thermal behavior | Pass (owner-reported for checks performed) |
